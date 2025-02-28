@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Mobile menu toggle
+      const menuButton = document.getElementById("menu-button");
+      const sidebar = document.getElementById("sidebar");
+      menuButton.addEventListener("click", function () {
+        sidebar.classList.toggle("-translate-x-full");
+      });
+
+      // Tab switching for Image Compressor and Video Downloader
+      const tabImage = document.getElementById("tab-image");
+      const tabVideo = document.getElementById("tab-video");
+      const contentImage = document.getElementById("content-image");
+      const contentVideo = document.getElementById("content-video");
+
+      tabImage.addEventListener("click", function () {
+        tabImage.classList.add("border-b-2", "border-yellow-300");
+        tabVideo.classList.remove("border-b-2", "border-yellow-300");
+        contentImage.classList.remove("hidden");
+        contentVideo.classList.add("hidden");
+      });
+      tabVideo.addEventListener("click", function () {
+        tabVideo.classList.add("border-b-2", "border-yellow-300");
+        tabImage.classList.remove("border-b-2", "border-yellow-300");
+        contentVideo.classList.remove("hidden");
+        contentImage.classList.add("hidden");
+      });
+
+      // Video Downloader: Get available formats using yt-dlp library via AJAX
+      const getFormatsBtn = document.getElementById("get-formats-btn");
+      getFormatsBtn.addEventListener("click", async function () {
+        const urlInput = document.getElementById("video-url");
+        const url = urlInput.value.trim();
+        if (!url) {
+          alert("Please enter a YouTube URL");
+          return;
+        }
+        // Clear previous results
+        const tableBody = document.getElementById("formats-table-body");
+        tableBody.innerHTML = "";
+        document.getElementById("formats-container").classList.remove("hidden");
+        // Prepare form data
+        const formData = new FormData();
+        formData.append("url", url);
+        try {
+          const response = await fetch("/video_info", {
+            method: "POST",
+            body: formData,
+          });
+          if (!response.ok) {
+            alert("Error fetching video info");
+            return;
+          }
+          const data = await response.json();
+          const formats = data.formats;
+          if (!formats || formats.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="6">No formats found</td></tr>';
+          } else {
+            formats.forEach(fmt => {
+              const tr = document.createElement("tr");
+
+              // Radio button column
+              const tdRadio = document.createElement("td");
+              tdRadio.classList.add("px-2", "py-1");
+              const radio = document.createElement("input");
+              radio.type = "radio";
+              radio.name = "format_id";
+              radio.value = fmt.format_id;
+              tdRadio.appendChild(radio);
+              tr.appendChild(tdRadio);
+
+              // Format ID
+              const tdId = document.createElement("td");
+              tdId.classList.add("px-2", "py-1");
+              tdId.textContent = fmt.format_id;
+              tr.appendChild(tdId);
+
+              // Extension
+              const tdExt = document.createElement("td");
+              tdExt.classList.add("px-2", "py-1");
+              tdExt.textContent = fmt.ext;
+              tr.appendChild(tdExt);
+
+              // Resolution (if available)
+              const tdRes = document.createElement("td");
+              tdRes.classList.add("px-2", "py-1");
+              if (fmt.width && fmt.height) {
+                tdRes.textContent = fmt.width + "x" + fmt.height;
+              } else {
+                tdRes.textContent = fmt.format_note || "N/A";
+              }
+              tr.appendChild(tdRes);
+
+              // Filesize (in MB if available)
+              const tdSize = document.createElement("td");
+              tdSize.classList.add("px-2", "py-1");
+              if (fmt.filesize) {
+                const sizeMB = (fmt.filesize / (1024 * 1024)).toFixed(2) + " MB";
+                tdSize.textContent = sizeMB;
+              } else {
+                tdSize.textContent = "N/A";
+              }
+              tr.appendChild(tdSize);
+
+              // Audio availability column
+              const tdAudio = document.createElement("td");
+              tdAudio.classList.add("px-2", "py-1");
+              // If acodec is not "none", then audio is present.
+              tdAudio.textContent = (fmt.acodec && fmt.acodec !== "none") ? "Yes" : "No";
+              tr.appendChild(tdAudio);
+
+              tableBody.appendChild(tr);
+            });
+          }
+          // Reveal the Download button container
+          document.getElementById("download-button-container").classList.remove("hidden");
+        } catch (error) {
+          alert("Error: " + error);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body class="bg-slate-800 text-white">
+  <!-- Google Analytics (if needed) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMQZPL0QW7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-MMQZPL0QW7");
+  </script>
+
+  <!-- Header Navigation -->
+  <header class="bg-slate-700 p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">Media Tools</h1>
+    <!-- Mobile Menu Button -->
+    <button id="menu-button" class="block md:hidden focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block">
+      <ul class="flex space-x-6">
+        <li>
+          <a href="#" id="tab-image" class="hover:text-yellow-300 transition border-b-2 border-yellow-300">
+            Image Compressor
+          </a>
+        </li>
+        <li>
+          <a href="#" id="tab-video" class="hover:text-yellow-300 transition border-b-2 border-transparent">
+            Video Downloader
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Menu -->
+  <aside id="sidebar"
+    class="fixed top-0 left-0 h-full w-64 bg-slate-700 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden">
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-4">Menu</h2>
+      <ul>
+        <li class="mb-2">
+          <a href="#" onclick="document.getElementById('tab-image').click()"
+            class="block p-2 rounded hover:bg-slate-600 transition">Image Compressor</a>
+        </li>
+        <li class="mb-2">
+          <a href="#" onclick="document.getElementById('tab-video').click()"
+            class="block p-2 rounded hover:bg-slate-600 transition">Video Downloader</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="p-4">
+    <div class="max-w-3xl mx-auto mt-10 bg-slate-500 p-6 rounded shadow-lg">
+      <!-- Tabs -->
+      <div class="tabs flex space-x-4 border-b mb-4">
+        <button id="tab-image" class="px-4 py-2 font-bold border-b-2 border-yellow-300 focus:outline-none">
+          Image Compressor
+        </button>
+        <button id="tab-video" class="px-4 py-2 font-bold border-b-2 border-transparent hover:border-yellow-300 focus:outline-none">
+          Video Downloader
+        </button>
+      </div>
+      <!-- Tab Content: Image Compressor -->
+      <div id="content-image" class="tab-content">
+        <h2 class="text-2xl font-bold text-center mb-6">Image Compressor with FFmpeg</h2>
+        <form action="/compress" method="post" enctype="multipart/form-data">
+          <!-- File Upload -->
+          <div class="mb-4">
+            <label class="block mb-2" for="file">Upload an image:</label>
+            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="file" id="file" name="file"
+              accept="image/*" required>
+          </div>
+          <!-- Compression Quality -->
+          <div class="mb-4">
+            <label class="block mb-2" for="quality">Compression Quality (1-100):</label>
+            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="number" id="quality"
+              name="quality" min="1" max="100" value="75" required>
+          </div>
+          <!-- Output Format -->
+          <div class="mb-6">
+            <label class="block mb-2" for="format">Output Format:</label>
+            <select class="w-full p-2 rounded bg-slate-700 border border-slate-600" id="format" name="format" required>
+              <option value="jpg">JPG</option>
+              <option value="webp">WEBP</option>
+              <option value="pdf">PDF</option>
+            </select>
+          </div>
+          <!-- Submit Button -->
+          <button type="submit"
+            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded transition">
+            Compress Image
+          </button>
+        </form>
+      </div>
+      <!-- Tab Content: Video Downloader -->
+      <div id="content-video" class="tab-content hidden">
+        <h2 class="text-2xl font-bold text-center mb-6">Video Downloader (yt‑dlp)</h2>
+        <form id="video-form" action="/download_video" method="post">
+          <!-- YouTube URL -->
+          <div class="mb-4">
+            <label class="block mb-2" for="video-url">YouTube URL:</label>
+            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="url" id="video-url" name="url"
+              placeholder="Enter YouTube URL" required>
+          </div>
+          <!-- Get Formats Button -->
+          <button type="button" id="get-formats-btn"
+            class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded transition">
+            Get Formats
+          </button>
+          <!-- Container for available formats -->
+          <div id="formats-container" class="mt-4 hidden">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr>
+                  <th class="px-2 py-1">Select</th>
+                  <th class="px-2 py-1">Format ID</th>
+                  <th class="px-2 py-1">Ext</th>
+                  <th class="px-2 py-1">Resolution</th>
+                  <th class="px-2 py-1">Filesize</th>
+                  <th class="px-2 py-1">Audio</th>
+                </tr>
+              </thead>
+              <tbody id="formats-table-body">
+                <!-- Rows added dynamically -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Download Button (revealed after formats are loaded) -->
+          <div id="download-button-container" class="mt-4 hidden">
+            <button type="submit"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded transition">
+              Download
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compressor with FFmpeg</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+    <div class="w-full">
+        <div class="h-[100vh] bg-slate-800 text-white">
+            <div class="grid md:grid-cols-3">
+                <div></div>
+                <div class="p-2 m-2 bg-slate-500 font-bold text-lg rounded text-center">
+                    <h1>Image Compressor with FFmpeg</h1>
+                </div>
+                <div></div>
+            </div>
+            <div class="grid md:grid-cols-3 justify-item-center">
+                <div class=""></div>
+                <div class="">
+                    <form action="/compress" method="post" enctype="multipart/form-data">
+                        <div class="p-2 m2 flex">
+                            <label class="text-left w-[5rem]" for="file">Upload an image:</label>
+                            <input class="border bg-slate-500 rounded text-center p-2 w-[18rem]" type="file" id="file"
+                                name="file" accept="image/*" required>
+                        </div>
+
+                        <div class="p-2 m2 flex">
+                            <label class="text-left w-[15rem]" for="quality">Compression Quality (1-100):</label>
+                            <input class="border bg-slate-500 rounded text-center p-2" type="number" id="quality"
+                                name="quality" min="1" max="100" value="75" required>
+                        </div>
+
+                        <div class="p-2 m2 flex">
+                            <label class="text-left w-[15rem]" for="format">Output Format:</label>
+                            <select class="border bg-slate-500 rounded text-center p-2" id="format" name="format" required>
+                                <option value="jpg">JPG</option>
+                                <option value="webp">WEBP</option>
+                                <option value="pdf">PDF</option>
+                            </select>
+                        </div>
+
+                        <div class="p-2 m2 border bg-red-400 rounded text-center w-full">
+                            <button class="w-full" type="submit">Compress Image</button>
+                        </div>
+                    </form>
+                </div>
+                <div class=""></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

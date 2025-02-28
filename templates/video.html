@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Call</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center mb-6">Video Call App</h1>
+
+        <!-- User Registration Section -->
+        <div class="mb-6 text-center">
+            <input 
+                type="text" 
+                id="userId" 
+                placeholder="Enter your user ID" 
+                class="border rounded-md px-4 py-2 text-sm w-full max-w-xs">
+            <button 
+                id="registerButton" 
+                class="bg-blue-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-blue-600">
+                Register
+            </button>
+        </div>
+
+        <!-- Video Section -->
+        <div class="flex flex-col items-center">
+            <video 
+                id="localVideo" 
+                autoplay 
+                muted 
+                playsinline 
+                class="w-64 h-48 border border-gray-300 rounded-md mb-4">
+            </video>
+
+            <div id="remoteVideos" class="grid grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- Call Controls -->
+        <div class="mt-6 text-center">
+            <select 
+                id="userList" 
+                class="border rounded-md px-4 py-2 text-sm w-full max-w-xs mb-2">
+            </select>
+            <button 
+                id="callButton" 
+                class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                Call
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const socket = io("https://video.vaishyasabhamumbaivivah.com");
+        const peerConnections = {};
+        let localStream;
+
+        // DOM elements
+        const localVideo = document.getElementById("localVideo");
+        const userList = document.getElementById("userList");
+        const userIdInput = document.getElementById("userId");
+        const registerButton = document.getElementById("registerButton");
+        const callButton = document.getElementById("callButton");
+
+        // Register user
+        registerButton.onclick = () => {
+            const userId = userIdInput.value;
+            if (userId) {
+                socket.emit("register", { userId });
+            }
+        };
+
+        // Update user list
+        socket.on("user-list", (data) => {
+            userList.innerHTML = "";
+            data.users.forEach((user) => {
+                const option = document.createElement("option");
+                option.value = user;
+                option.textContent = user;
+                userList.appendChild(option);
+            });
+        });
+
+        // Start local video stream
+        async function startLocalStream() {
+            localStream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true,
+            });
+            localVideo.srcObject = localStream;
+        }
+        startLocalStream();
+
+        // Handle call button click
+        callButton.onclick = async () => {
+            const targetId = userList.value;
+            if (targetId) {
+                const pc = createPeerConnection(targetId);
+                localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
+
+                const offer = await pc.createOffer();
+                await pc.setLocalDescription(offer);
+
+                socket.emit("offer", {
+                    to: targetId,
+                    from: userIdInput.value,
+                    sdp: offer.sdp,
+                });
+            }
+        };
+
+        // Handle offer
+        socket.on("offer", async (data) => {
+            const { from, sdp } = data;
+            const pc = createPeerConnection(from);
+            await pc.setRemoteDescription(new RTCSessionDescription({ type: "offer", sdp }));
+
+            localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
+
+            const answer = await pc.createAnswer();
+            await pc.setLocalDescription(answer);
+
+            socket.emit("answer", {
+                to: from,
+                from: userIdInput.value,
+                sdp: answer.sdp,
+            });
+        });
+
+        // Handle answer
+        socket.on("answer", async (data) => {
+            const { from, sdp } = data;
+            const pc = peerConnections[from];
+            if (pc) {
+                await pc.setRemoteDescription(new RTCSessionDescription({ type: "answer", sdp }));
+            }
+        });
+
+        // Handle ICE candidate
+        socket.on("candidate", async (data) => {
+            const { from, candidate } = data;
+            const pc = peerConnections[from];
+            if (pc) {
+                await pc.addIceCandidate(new RTCIceCandidate(candidate));
+            }
+        });
+
+        // Create peer connection
+        function createPeerConnection(remoteId) {
+            const pc = new RTCPeerConnection();
+            peerConnections[remoteId] = pc;
+
+            pc.onicecandidate = (event) => {
+                if (event.candidate) {
+                    socket.emit("candidate", {
+                        to: remoteId,
+                        from: userIdInput.value,
+                        candidate: event.candidate,
+                    });
+                }
+            };
+
+            pc.ontrack = (event) => {
+                let remoteVideo = document.getElementById(`video-${remoteId}`);
+                if (!remoteVideo) {
+                    remoteVideo = document.createElement("video");
+                    remoteVideo.id = `video-${remoteId}`;
+                    remoteVideo.autoplay = true;
+                    remoteVideo.playsInline = true;
+                    remoteVideo.className = "w-64 h-48 border border-gray-300 rounded-md";
+                    document.getElementById("remoteVideos").appendChild(remoteVideo);
+                }
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            return pc;
+        }
+    </script>
+</body>
+</html>
