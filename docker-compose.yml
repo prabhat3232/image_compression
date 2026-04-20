@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  image-tools:
+    build: .
+    container_name: image-compression-tools
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount uploads and static folders for persistence
+      - ./uploads:/app/uploads
+      - ./static:/app/static
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped

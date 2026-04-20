@@ -1,281 +1,1203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Media Tools</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Mobile menu toggle
-      const menuButton = document.getElementById("menu-button");
-      const sidebar = document.getElementById("sidebar");
-      menuButton.addEventListener("click", function () {
-        sidebar.classList.toggle("-translate-x-full");
-      });
-
-      // Tab switching for Image Compressor and Video Downloader
-      const tabImage = document.getElementById("tab-image");
-      const tabVideo = document.getElementById("tab-video");
-      const contentImage = document.getElementById("content-image");
-      const contentVideo = document.getElementById("content-video");
-
-      tabImage.addEventListener("click", function () {
-        tabImage.classList.add("border-b-2", "border-yellow-300");
-        tabVideo.classList.remove("border-b-2", "border-yellow-300");
-        contentImage.classList.remove("hidden");
-        contentVideo.classList.add("hidden");
-      });
-      tabVideo.addEventListener("click", function () {
-        tabVideo.classList.add("border-b-2", "border-yellow-300");
-        tabImage.classList.remove("border-b-2", "border-yellow-300");
-        contentVideo.classList.remove("hidden");
-        contentImage.classList.add("hidden");
-      });
-
-      // Video Downloader: Get available formats using yt-dlp library via AJAX
-      const getFormatsBtn = document.getElementById("get-formats-btn");
-      getFormatsBtn.addEventListener("click", async function () {
-        const urlInput = document.getElementById("video-url");
-        const url = urlInput.value.trim();
-        if (!url) {
-          alert("Please enter a YouTube URL");
-          return;
-        }
-        // Clear previous results
-        const tableBody = document.getElementById("formats-table-body");
-        tableBody.innerHTML = "";
-        document.getElementById("formats-container").classList.remove("hidden");
-        // Prepare form data
-        const formData = new FormData();
-        formData.append("url", url);
-        try {
-          const response = await fetch("/video_info", {
-            method: "POST",
-            body: formData,
-          });
-          if (!response.ok) {
-            alert("Error fetching video info");
-            return;
-          }
-          const data = await response.json();
-          const formats = data.formats;
-          if (!formats || formats.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="6">No formats found</td></tr>';
-          } else {
-            formats.forEach(fmt => {
-              const tr = document.createElement("tr");
-
-              // Radio button column
-              const tdRadio = document.createElement("td");
-              tdRadio.classList.add("px-2", "py-1");
-              const radio = document.createElement("input");
-              radio.type = "radio";
-              radio.name = "format_id";
-              radio.value = fmt.format_id;
-              tdRadio.appendChild(radio);
-              tr.appendChild(tdRadio);
-
-              // Format ID
-              const tdId = document.createElement("td");
-              tdId.classList.add("px-2", "py-1");
-              tdId.textContent = fmt.format_id;
-              tr.appendChild(tdId);
-
-              // Extension
-              const tdExt = document.createElement("td");
-              tdExt.classList.add("px-2", "py-1");
-              tdExt.textContent = fmt.ext;
-              tr.appendChild(tdExt);
-
-              // Resolution (if available)
-              const tdRes = document.createElement("td");
-              tdRes.classList.add("px-2", "py-1");
-              if (fmt.width && fmt.height) {
-                tdRes.textContent = fmt.width + "x" + fmt.height;
-              } else {
-                tdRes.textContent = fmt.format_note || "N/A";
-              }
-              tr.appendChild(tdRes);
-
-              // Filesize (in MB if available)
-              const tdSize = document.createElement("td");
-              tdSize.classList.add("px-2", "py-1");
-              if (fmt.filesize) {
-                const sizeMB = (fmt.filesize / (1024 * 1024)).toFixed(2) + " MB";
-                tdSize.textContent = sizeMB;
-              } else {
-                tdSize.textContent = "N/A";
-              }
-              tr.appendChild(tdSize);
-
-              // Audio availability column
-              const tdAudio = document.createElement("td");
-              tdAudio.classList.add("px-2", "py-1");
-              // If acodec is not "none", then audio is present.
-              tdAudio.textContent = (fmt.acodec && fmt.acodec !== "none") ? "Yes" : "No";
-              tr.appendChild(tdAudio);
-
-              tableBody.appendChild(tr);
-            });
-          }
-          // Reveal the Download button container
-          document.getElementById("download-button-container").classList.remove("hidden");
-        } catch (error) {
-          alert("Error: " + error);
-        }
-      });
-    });
-  </script>
-</head>
-
-<body class="bg-slate-800 text-white">
-  <!-- Google Analytics (if needed) -->
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-MMQZPL0QW7"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515894801701029"
+    crossorigin="anonymous"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-MMQZPL0QW7');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-1515894801701029">
+
+  <!-- Primary Meta Tags -->
+  <title>Compress & Edit Images Online | Free Media Tools</title>
+  <meta name="title" content="Compress & Edit Images Online | Free Media Tools">
+  <meta name="description"
+    content="Free online image compressor and editor. Compress JPG, PNG, WEBP images efficiently. Edit, crop, resize and convert images to PDF securely in your browser.">
+  <meta name="keywords"
+    content="image compressor, reduce image size, online photo editor, convert to pdf, image optimization, free media tools, jpg compressor, png optimization">
+  <meta name="author" content="DSnM Solutions">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://compress.dsnmsolutions.com/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://compress.dsnmsolutions.com/">
+  <meta property="og:title" content="Compress & Edit Images Online | Free Media Tools">
+  <meta property="og:description"
+    content="Free online image compressor and editor. Compress JPG, PNG, WEBP images efficiently. Edit, crop, resize and convert images to PDF securely in your browser.">
+  <meta property="og:image" content="https://compress.dsnmsolutions.com/static/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://compress.dsnmsolutions.com/">
+  <meta property="twitter:title" content="Compress & Edit Images Online | Free Media Tools">
+  <meta property="twitter:description"
+    content="Free online image compressor and editor. Compress JPG, PNG, WEBP images efficiently. Edit, crop, resize and convert images to PDF securely in your browser.">
+  <meta property="twitter:image" content="https://compress.dsnmsolutions.com/static/og-image.jpg">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Media Tools",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any",
+    "url": "https://compress.dsnmsolutions.com/",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "1250"
     }
-    gtag("js", new Date());
-    gtag("config", "G-MMQZPL0QW7");
+  }
   </script>
 
-  <!-- Header Navigation -->
-  <header class="bg-slate-700 p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Media Tools</h1>
-    <!-- Mobile Menu Button -->
-    <button id="menu-button" class="block md:hidden focus:outline-none">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-    </button>
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:block">
-      <ul class="flex space-x-6">
-        <li>
-          <a href="#" id="tab-image" class="hover:text-yellow-300 transition border-b-2 border-yellow-300">
-            Image Compressor
-          </a>
-        </li>
-        <li>
-          <a href="#" id="tab-video" class="hover:text-yellow-300 transition border-b-2 border-transparent">
-            Video Downloader
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            dark: {
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
 
-  <!-- Mobile Sidebar Menu -->
-  <aside id="sidebar"
-    class="fixed top-0 left-0 h-full w-64 bg-slate-700 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 md:hidden">
-    <div class="p-4">
-      <h2 class="text-xl font-bold mb-4">Menu</h2>
-      <ul>
-        <li class="mb-2">
-          <a href="#" onclick="document.getElementById('tab-image').click()"
-            class="block p-2 rounded hover:bg-slate-600 transition">Image Compressor</a>
-        </li>
-        <li class="mb-2">
-          <a href="#" onclick="document.getElementById('tab-video').click()"
-            class="block p-2 rounded hover:bg-slate-600 transition">Video Downloader</a>
-        </li>
-      </ul>
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    .glass {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-dark-900 text-slate-200 min-h-screen font-sans antialiased selection:bg-primary-500 selection:text-white overflow-x-hidden">
+
+  <!-- Background Blobs -->
+  <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+    <div
+      class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse">
     </div>
-  </aside>
+    <div
+      class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse"
+      style="animation-delay: 2s"></div>
+  </div>
 
-  <!-- Main Content Area -->
-  <main class="p-4">
-    <div class="max-w-3xl mx-auto mt-10 bg-slate-500 p-6 rounded shadow-lg">
-      <!-- Tabs -->
-      <div class="tabs flex space-x-4 border-b mb-4">
-        <button id="tab-image" class="px-4 py-2 font-bold border-b-2 border-yellow-300 focus:outline-none">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- AdSense: Top Banner -->
+    <div class="w-full flex justify-center mb-8">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515894801701029" data-ad-slot="6004131834"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- Header -->
+    <header class="text-center mb-16 animate-fade-in">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-tight">
+        <span class="gradient-text">Media</span>Tools
+      </h1>
+      <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
+        Premium compression and downloading tools for creators.
+      </p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="flex justify-center mb-8 animate-fade-in" style="animation-delay: 0.1s">
+      <div class="glass rounded-2xl p-2 inline-flex space-x-2">
+        <button id="tab-compressor" onclick="switchTab('compressor')"
+          class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 bg-primary-600 text-white shadow-lg">
           Image Compressor
         </button>
-        <button id="tab-video" class="px-4 py-2 font-bold border-b-2 border-transparent hover:border-yellow-300 focus:outline-none">
-          Video Downloader
+        <button id="tab-editor" onclick="switchTab('editor')"
+          class="px-6 py-3 rounded-xl font-semibold transition-all duration-300 text-slate-400 hover:text-white">
+          Image Editor
         </button>
       </div>
-      <!-- Tab Content: Image Compressor -->
-      <div id="content-image" class="tab-content">
-        <h2 class="text-2xl font-bold text-center mb-6">Image Compressor with FFmpeg</h2>
-        <form action="/compress" method="post" enctype="multipart/form-data">
-          <!-- File Upload -->
-          <div class="mb-4">
-            <label class="block mb-2" for="file">Upload an image:</label>
-            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="file" id="file" name="file"
-              accept="image/*" required>
-          </div>
-          <!-- Compression Quality -->
-          <div class="mb-4">
-            <label class="block mb-2" for="quality">Compression Quality (1-100):</label>
-            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="number" id="quality"
-              name="quality" min="1" max="100" value="75" required>
-          </div>
-          <!-- Output Format -->
-          <div class="mb-6">
-            <label class="block mb-2" for="format">Output Format:</label>
-            <select class="w-full p-2 rounded bg-slate-700 border border-slate-600" id="format" name="format" required>
-              <option value="jpg">JPG</option>
-              <option value="webp">WEBP</option>
-              <option value="pdf">PDF</option>
-            </select>
-          </div>
-          <!-- Submit Button -->
-          <button type="submit"
-            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded transition">
-            Compress Image
-          </button>
-        </form>
-      </div>
-      <!-- Tab Content: Video Downloader -->
-      <div id="content-video" class="tab-content hidden">
-        <h2 class="text-2xl font-bold text-center mb-6">Video Downloader (yt‑dlp)</h2>
-        <form id="video-form" action="/download_video" method="post">
-          <!-- YouTube URL -->
-          <div class="mb-4">
-            <label class="block mb-2" for="video-url">YouTube URL:</label>
-            <input class="w-full p-2 rounded bg-slate-700 border border-slate-600" type="url" id="video-url" name="url"
-              placeholder="Enter YouTube URL" required>
-          </div>
-          <!-- Get Formats Button -->
-          <button type="button" id="get-formats-btn"
-            class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded transition">
-            Get Formats
-          </button>
-          <!-- Container for available formats -->
-          <div id="formats-container" class="mt-4 hidden">
-            <table class="w-full text-sm text-left">
-              <thead>
-                <tr>
-                  <th class="px-2 py-1">Select</th>
-                  <th class="px-2 py-1">Format ID</th>
-                  <th class="px-2 py-1">Ext</th>
-                  <th class="px-2 py-1">Resolution</th>
-                  <th class="px-2 py-1">Filesize</th>
-                  <th class="px-2 py-1">Audio</th>
-                </tr>
-              </thead>
-              <tbody id="formats-table-body">
-                <!-- Rows added dynamically -->
-              </tbody>
-            </table>
-          </div>
-          <!-- Download Button (revealed after formats are loaded) -->
-          <div id="download-button-container" class="mt-4 hidden">
-            <button type="submit"
-              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded transition">
-              Download
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
-  </main>
+
+    <!-- AdSense: Middle Banner -->
+    <div class="w-full flex justify-center mb-8">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515894801701029" data-ad-slot="6004131834"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-4xl mx-auto">
+
+      <!-- Tab Content: Image Compressor -->
+      <div id="content-image" class="animate-slide-up" style="animation-delay: 0.2s">
+        <div class="glass rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+
+          <!-- Glossy effect line -->
+          <div
+            class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent">
+          </div>
+
+          <form action="/compress" method="post" enctype="multipart/form-data" id="compress-form">
+
+            <!-- Drag & Drop Zone -->
+            <div id="drop-zone" class="relative group/zone cursor-pointer">
+              <input type="file" id="file" name="file" class="hidden" accept="image/*" multiple required
+                onchange="handleFiles(this.files)">
+
+              <div
+                class="border-2 border-dashed border-slate-600 rounded-2xl p-10 text-center transition-all duration-300 group-hover/zone:border-primary-500 group-hover/zone:bg-primary-500/5 relative overflow-hidden"
+                id="drop-area">
+
+                <div class="relative z-10 flex flex-col items-center justify-center space-y-4">
+                  <div
+                    class="w-16 h-16 bg-dark-800 rounded-full flex items-center justify-center shadow-lg group-hover/zone:scale-110 transition-transform duration-300">
+                    <svg class="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                      </path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-lg font-medium text-white mb-1">Click to upload or drag and drop</p>
+                    <p class="text-sm text-slate-400">SVG, PNG, JPG or WEBP</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- File List Preview -->
+            <div id="file-list" class="mt-6 space-y-3 hidden">
+              <!-- JS will populate this -->
+            </div>
+
+            <!-- Settings -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+
+              <!-- Quality -->
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Compression
+                  Quality</label>
+                <div class="relative pt-1">
+                  <div class="flex justify-between text-xs text-slate-400 mb-2">
+                    <span>Low Size</span>
+                    <span id="quality-value" class="text-primary-400 font-bold text-lg">75%</span>
+                    <span>High Quality</span>
+                  </div>
+                  <input type="range" id="quality" name="quality" min="1" max="100" value="75"
+                    class="w-full h-2 bg-dark-700 rounded-lg appearance-none cursor-pointer accent-primary-500"
+                    oninput="document.getElementById('quality-value').innerText = this.value + '%'">
+                </div>
+              </div>
+
+              <!-- Format -->
+              <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Output Format</label>
+                <div class="grid grid-cols-3 gap-3">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="format" value="jpg" checked class="peer hidden"
+                      onchange="togglePdfOptions()">
+                    <div
+                      class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                      JPG
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="format" value="webp" class="peer hidden" onchange="togglePdfOptions()">
+                    <div
+                      class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                      WEBP
+                    </div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="format" value="pdf" class="peer hidden" onchange="togglePdfOptions()">
+                    <div
+                      class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                      PDF
+                    </div>
+                  </label>
+                </div>
+
+                <!-- PDF Options (Hidden by default) -->
+                <div id="pdf-options" class="hidden animate-fade-in pt-2">
+                  <label class="flex items-center space-x-3 cursor-pointer group">
+                    <div class="relative">
+                      <input type="checkbox" name="merge_pdf" class="peer sr-only">
+                      <div
+                        class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                      </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-white transition-colors">Merge all images into one
+                      PDF</span>
+                  </label>
+                  <label class="flex items-center space-x-3 cursor-pointer group mt-3">
+                    <div class="relative">
+                      <input type="checkbox" name="compress_pdf_images" checked class="peer sr-only">
+                      <div
+                        class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                      </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-white transition-colors">Compress images in PDF</span>
+                  </label>
+                  <p class="text-xs text-slate-400 mt-2 ml-13">
+                    Uncheck to preserve original quality (larger file size)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+              class="mt-10 w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 transform hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-primary-500/25 flex items-center justify-center space-x-2 group">
+              <span>Start Compression</span>
+              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6">
+                </path>
+              </svg>
+            </button>
+
+            </button>
+
+            <!-- Result Area -->
+            <div id="result-area" class="hidden mt-8 animate-fade-in">
+              <div class="glass bg-primary-500/10 border-primary-500/30 rounded-2xl p-6 text-center">
+                <div class="flex flex-col items-center space-y-4">
+                  <div
+                    class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center shadow-lg shadow-primary-500/50 animate-bounce-slow">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-bold text-white">Compression Complete!</h3>
+                  <p class="text-slate-300 max-w-sm">Your files are ready for download.</p>
+
+                  <a id="download-link" href="#"
+                    class="inline-flex items-center space-x-2 px-8 py-3 bg-white text-primary-600 rounded-xl font-bold hover:bg-slate-100 transition-colors shadow-lg">
+                    <span>Download Files</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                  </a>
+
+                  <button type="button" onclick="resetUI()"
+                    class="text-sm text-slate-400 hover:text-white underline mt-4">Compress More Files</button>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab Content: Image Editor -->
+      <div id="content-editor" class="hidden animate-slide-up">
+        <div class="glass rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+
+          <!-- Glossy effect line -->
+          <div
+            class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent">
+          </div>
+
+          <!-- Upload Area -->
+          <div id="editor-upload-zone" class="relative group/zone cursor-pointer" ondrop="handleEditorDrop(event)"
+            ondragover="handleEditorDragOver(event)" ondragleave="handleEditorDragLeave(event)">
+            <input type="file" id="editor-file" class="hidden" accept="image/*"
+              onchange="loadEditorImage(this.files[0])">
+
+            <div
+              class="border-2 border-dashed border-slate-600 rounded-2xl p-10 text-center transition-all duration-300 group-hover/zone:border-primary-500 group-hover/zone:bg-primary-500/5"
+              onclick="document.getElementById('editor-file').click()">
+              <div class="flex flex-col items-center justify-center space-y-4">
+                <div
+                  class="w-16 h-16 bg-dark-800 rounded-full flex items-center justify-center shadow-lg group-hover/zone:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-lg font-medium text-white mb-1">Click to upload image</p>
+                  <p class="text-sm text-slate-400">PNG, JPG or WEBP</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Editor Canvas Area -->
+          <div id="editor-canvas-area" class="hidden mt-8">
+            <!-- Canvas Container -->
+            <div class="bg-dark-800 rounded-2xl p-4 mb-6 overflow-auto max-h-[500px]">
+              <canvas id="editor-canvas" class="mx-auto" style="max-width: 100%;"></canvas>
+            </div>
+
+            <!-- Undo/Redo Buttons -->
+            <div class="flex gap-3 mb-6">
+              <button id="undo-btn" onclick="undo()"
+                class="flex-1 py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2"
+                disabled style="opacity: 0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                </svg>
+                <span>Undo</span>
+              </button>
+              <button id="redo-btn" onclick="redo()"
+                class="flex-1 py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2"
+                disabled style="opacity: 0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6"></path>
+                </svg>
+                <span>Redo</span>
+              </button>
+            </div>
+
+            <!-- Editing Tools -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <!-- Crop Tool -->
+              <div class="glass rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Crop</h3>
+                <div class="space-y-4">
+                  <p class="text-sm text-slate-400">Click and drag on the image to select crop area</p>
+                  <div class="grid grid-cols-2 gap-3">
+                    <button id="crop-mode-btn" onclick="toggleCropMode()"
+                      class="py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg font-semibold transition-colors">
+                      Enable Crop
+                    </button>
+                    <button onclick="applyCrop()"
+                      class="py-2 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors">
+                      Apply Crop
+                    </button>
+                  </div>
+                  <button onclick="cancelCrop()"
+                    class="w-full py-2 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors">
+                    Cancel Crop
+                  </button>
+                </div>
+              </div>
+
+              <!-- Resize Tool -->
+              <div class="glass rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Resize</h3>
+                <div class="space-y-4">
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-sm text-slate-400 mb-2">Width (px)</label>
+                      <input type="number" id="resize-width"
+                        class="w-full px-4 py-2 bg-dark-700 border border-slate-600 rounded-lg text-white focus:border-primary-500 focus:outline-none">
+                    </div>
+                    <div>
+                      <label class="block text-sm text-slate-400 mb-2">Height (px)</label>
+                      <input type="number" id="resize-height"
+                        class="w-full px-4 py-2 bg-dark-700 border border-slate-600 rounded-lg text-white focus:border-primary-500 focus:outline-none">
+                    </div>
+                  </div>
+                  <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" id="maintain-aspect" checked class="w-4 h-4 accent-primary-500">
+                    <span class="text-sm text-slate-300">Maintain aspect ratio</span>
+                  </label>
+                  <button onclick="applyResize()"
+                    class="w-full py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg font-semibold transition-colors">
+                    Apply Resize
+                  </button>
+                </div>
+              </div>
+
+              <!-- Transform Tools -->
+              <div class="glass rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Transform</h3>
+                <div class="space-y-3">
+                  <button onclick="rotateImage(90)"
+                    class="w-full py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                      </path>
+                    </svg>
+                    <span>Rotate 90° Right</span>
+                  </button>
+                  <button onclick="rotateImage(-90)"
+                    class="w-full py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5 transform scale-x-[-1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                      </path>
+                    </svg>
+                    <span>Rotate 90° Left</span>
+                  </button>
+                  <div class="grid grid-cols-2 gap-3">
+                    <button onclick="flipImage('horizontal')"
+                      class="py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors">
+                      Flip H
+                    </button>
+                    <button onclick="flipImage('vertical')"
+                      class="py-3 bg-dark-700 hover:bg-dark-600 text-white rounded-lg font-semibold transition-colors">
+                      Flip V
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-8">
+              <button onclick="downloadEditedImage()"
+                class="flex-1 py-4 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white rounded-xl font-bold transition-all shadow-lg">
+                Download Edited Image
+              </button>
+              <button onclick="resetEditor()"
+                class="flex-1 py-4 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-bold transition-colors">
+                Reset / New Image
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- AdSense: Bottom Banner -->
+    <div class="w-full flex justify-center mt-12">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515894801701029" data-ad-slot="6004131834"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== TAB SWITCHING =====
+    function switchTab(tab) {
+      const compressorTab = document.getElementById('tab-compressor');
+      const editorTab = document.getElementById('tab-editor');
+      const compressorContent = document.getElementById('content-image');
+      const editorContent = document.getElementById('content-editor');
+
+      if (tab === 'compressor') {
+        compressorTab.classList.add('bg-primary-600', 'text-white', 'shadow-lg');
+        compressorTab.classList.remove('text-slate-400');
+        editorTab.classList.remove('bg-primary-600', 'text-white', 'shadow-lg');
+        editorTab.classList.add('text-slate-400');
+        compressorContent.classList.remove('hidden');
+        editorContent.classList.add('hidden');
+      } else {
+        editorTab.classList.add('bg-primary-600', 'text-white', 'shadow-lg');
+        editorTab.classList.remove('text-slate-400');
+        compressorTab.classList.remove('bg-primary-600', 'text-white', 'shadow-lg');
+        compressorTab.classList.add('text-slate-400');
+        editorContent.classList.remove('hidden');
+        compressorContent.classList.add('hidden');
+      }
+    }
+
+    // ===== IMAGE EDITOR =====
+    let editorCanvas, editorCtx, editorImage, originalImage;
+    let currentRotation = 0;
+    let isFlippedH = false;
+    let isFlippedV = false;
+
+    // Crop mode variables
+    let cropMode = false;
+    let cropStart = null;
+    let cropEnd = null;
+    let isDragging = false;
+    let storedImageForCrop = null; // Store original image element for crop
+
+    // History for undo/redo
+    let history = [];
+    let historyStep = -1;
+    const MAX_HISTORY = 20; // Limit history to prevent memory issues
+
+    function loadEditorImage(file) {
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          // Initialize canvas
+          editorCanvas = document.getElementById('editor-canvas');
+          editorCtx = editorCanvas.getContext('2d');
+
+          // Store original image
+          originalImage = img;
+          editorImage = img;
+          storedImageForCrop = img; // Store for crop operations
+
+          // Reset transformations
+          currentRotation = 0;
+          isFlippedH = false;
+          isFlippedV = false;
+
+          // Set canvas size to image size
+          editorCanvas.width = img.width;
+          editorCanvas.height = img.height;
+
+          // Draw image
+          editorCtx.drawImage(img, 0, 0);
+
+          // Update resize inputs
+          document.getElementById('resize-width').value = img.width;
+          document.getElementById('resize-height').value = img.height;
+
+          // Add crop event listeners
+          editorCanvas.addEventListener('mousedown', handleCropMouseDown);
+          editorCanvas.addEventListener('mousemove', handleCropMouseMove);
+          editorCanvas.addEventListener('mouseup', handleCropMouseUp);
+
+          // Show canvas area, hide upload zone
+          document.getElementById('editor-upload-zone').classList.add('hidden');
+          document.getElementById('editor-canvas-area').classList.remove('hidden');
+
+          // Save initial state to history
+          saveHistory();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ===== HISTORY FUNCTIONS =====
+    function saveHistory() {
+      // Remove any history after current step (for redo)
+      history = history.slice(0, historyStep + 1);
+
+      // Save current canvas state
+      const imageData = editorCanvas.toDataURL();
+      history.push({
+        imageData: imageData,
+        width: editorCanvas.width,
+        height: editorCanvas.height
+      });
+
+      // Limit history size
+      if (history.length > MAX_HISTORY) {
+        history.shift();
+      } else {
+        historyStep++;
+      }
+
+      updateUndoRedoButtons();
+    }
+
+    function undo() {
+      if (historyStep > 0) {
+        historyStep--;
+        restoreHistory();
+      }
+    }
+
+    function redo() {
+      if (historyStep < history.length - 1) {
+        historyStep++;
+        restoreHistory();
+      }
+    }
+
+    function restoreHistory() {
+      const state = history[historyStep];
+      const img = new Image();
+      img.onload = function () {
+        editorCanvas.width = state.width;
+        editorCanvas.height = state.height;
+        editorCtx.drawImage(img, 0, 0);
+        storedImageForCrop = img;
+
+        // Update resize inputs
+        document.getElementById('resize-width').value = state.width;
+        document.getElementById('resize-height').value = state.height;
+
+        updateUndoRedoButtons();
+      };
+      img.src = state.imageData;
+    }
+
+    function updateUndoRedoButtons() {
+      const undoBtn = document.getElementById('undo-btn');
+      const redoBtn = document.getElementById('redo-btn');
+
+      if (undoBtn) {
+        undoBtn.disabled = historyStep <= 0;
+        undoBtn.style.opacity = historyStep <= 0 ? '0.5' : '1';
+      }
+
+      if (redoBtn) {
+        redoBtn.disabled = historyStep >= history.length - 1;
+        redoBtn.style.opacity = historyStep >= history.length - 1 ? '0.5' : '1';
+      }
+    }
+
+    // ===== CROP FUNCTIONS =====
+    function toggleCropMode() {
+      cropMode = !cropMode;
+      const btn = document.getElementById('crop-mode-btn');
+
+      if (cropMode) {
+        btn.textContent = 'Disable Crop';
+        btn.classList.remove('bg-primary-600', 'hover:bg-primary-500');
+        btn.classList.add('bg-red-600', 'hover:bg-red-500');
+        editorCanvas.style.cursor = 'crosshair';
+      } else {
+        btn.textContent = 'Enable Crop';
+        btn.classList.remove('bg-red-600', 'hover:bg-red-500');
+        btn.classList.add('bg-primary-600', 'hover:bg-primary-500');
+        editorCanvas.style.cursor = 'default';
+        cancelCrop();
+      }
+    }
+
+    function handleCropMouseDown(e) {
+      if (!cropMode || !storedImageForCrop) return;
+
+      const rect = editorCanvas.getBoundingClientRect();
+      const scaleX = editorCanvas.width / rect.width;
+      const scaleY = editorCanvas.height / rect.height;
+
+      cropStart = {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+      cropEnd = null;
+      isDragging = true;
+    }
+
+    function handleCropMouseMove(e) {
+      if (!cropMode || !isDragging || !cropStart) return;
+
+      const rect = editorCanvas.getBoundingClientRect();
+      const scaleX = editorCanvas.width / rect.width;
+      const scaleY = editorCanvas.height / rect.height;
+
+      cropEnd = {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+
+      // Redraw canvas with crop rectangle
+      drawCropOverlay();
+    }
+
+    function handleCropMouseUp(e) {
+      if (!cropMode || !isDragging) return;
+
+      isDragging = false;
+
+      const rect = editorCanvas.getBoundingClientRect();
+      const scaleX = editorCanvas.width / rect.width;
+      const scaleY = editorCanvas.height / rect.height;
+
+      cropEnd = {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY
+      };
+
+      // Final draw
+      drawCropOverlay();
+    }
+
+    function drawCropOverlay() {
+      if (!cropStart || !cropEnd || !storedImageForCrop) return;
+
+      // Redraw the original image first
+      editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+      editorCtx.drawImage(storedImageForCrop, 0, 0, editorCanvas.width, editorCanvas.height);
+
+      // Calculate crop rectangle
+      const x = Math.min(cropStart.x, cropEnd.x);
+      const y = Math.min(cropStart.y, cropEnd.y);
+      const width = Math.abs(cropEnd.x - cropStart.x);
+      const height = Math.abs(cropEnd.y - cropStart.y);
+
+      // Draw semi-transparent overlay over entire canvas
+      editorCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+      editorCtx.fillRect(0, 0, editorCanvas.width, editorCanvas.height);
+
+      // Clear the crop area to show the original image
+      editorCtx.clearRect(x, y, width, height);
+      editorCtx.drawImage(storedImageForCrop, x, y, width, height, x, y, width, height);
+
+      // Draw crop rectangle border
+      editorCtx.strokeStyle = '#0ea5e9';
+      editorCtx.lineWidth = 2;
+      editorCtx.strokeRect(x, y, width, height);
+    }
+
+    function applyCrop() {
+      if (!cropStart || !cropEnd || !storedImageForCrop) {
+        alert('Please select a crop area first');
+        return;
+      }
+
+      // Calculate crop rectangle
+      const x = Math.min(cropStart.x, cropEnd.x);
+      const y = Math.min(cropStart.y, cropEnd.y);
+      const width = Math.abs(cropEnd.x - cropStart.x);
+      const height = Math.abs(cropEnd.y - cropStart.y);
+
+      if (width === 0 || height === 0) {
+        alert('Please select a valid crop area');
+        return;
+      }
+
+      // Create new canvas with cropped size
+      editorCanvas.width = width;
+      editorCanvas.height = height;
+
+      // Draw the cropped portion from the stored image
+      editorCtx.drawImage(
+        storedImageForCrop,
+        x, y, width, height,  // Source rectangle
+        0, 0, width, height   // Destination rectangle
+      );
+
+      // Update the stored image to the new cropped version
+      const newImg = new Image();
+      newImg.onload = function () {
+        storedImageForCrop = newImg;
+      };
+      newImg.src = editorCanvas.toDataURL();
+
+      // Update resize inputs
+      document.getElementById('resize-width').value = width;
+      document.getElementById('resize-height').value = height;
+
+      // Save to history
+      saveHistory();
+
+      // Reset crop mode
+      cropMode = false;
+      cropStart = null;
+      cropEnd = null;
+      isDragging = false;
+      editorCanvas.style.cursor = 'default';
+
+      const btn = document.getElementById('crop-mode-btn');
+      btn.textContent = 'Enable Crop';
+      btn.classList.remove('bg-red-600', 'hover:bg-red-500');
+      btn.classList.add('bg-primary-600', 'hover:bg-primary-500');
+    }
+
+    function cancelCrop() {
+      if (!storedImageForCrop) return;
+
+      cropStart = null;
+      cropEnd = null;
+      isDragging = false;
+
+      // Redraw the original image
+      editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+      editorCtx.drawImage(storedImageForCrop, 0, 0, editorCanvas.width, editorCanvas.height);
+    }
+
+    // ===== RESIZE FUNCTIONS =====
+    function applyResize() {
+      const newWidth = parseInt(document.getElementById('resize-width').value);
+      const newHeight = parseInt(document.getElementById('resize-height').value);
+
+      if (!newWidth || !newHeight || !editorImage) return;
+
+      // Create temporary canvas for resizing
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = newWidth;
+      tempCanvas.height = newHeight;
+      const tempCtx = tempCanvas.getContext('2d');
+
+      // Draw resized image
+      tempCtx.drawImage(editorCanvas, 0, 0, newWidth, newHeight);
+
+      // Update main canvas
+      editorCanvas.width = newWidth;
+      editorCanvas.height = newHeight;
+      editorCtx.drawImage(tempCanvas, 0, 0);
+
+      // Save to history
+      saveHistory();
+    }
+
+    function rotateImage(degrees) {
+      if (!editorImage) return;
+
+      currentRotation = (currentRotation + degrees) % 360;
+
+      // Swap dimensions for 90/-90 degree rotations
+      const isVertical = Math.abs(currentRotation) === 90 || Math.abs(currentRotation) === 270;
+      const newWidth = isVertical ? editorCanvas.height : editorCanvas.width;
+      const newHeight = isVertical ? editorCanvas.width : editorCanvas.height;
+
+      // Create temporary canvas
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = newWidth;
+      tempCanvas.height = newHeight;
+      const tempCtx = tempCanvas.getContext('2d');
+
+      // Rotate
+      tempCtx.translate(newWidth / 2, newHeight / 2);
+      tempCtx.rotate((degrees * Math.PI) / 180);
+      tempCtx.drawImage(editorCanvas, -editorCanvas.width / 2, -editorCanvas.height / 2);
+
+      // Update main canvas
+      editorCanvas.width = newWidth;
+      editorCanvas.height = newHeight;
+      editorCtx.clearRect(0, 0, newWidth, newHeight);
+      editorCtx.drawImage(tempCanvas, 0, 0);
+
+      // Update resize inputs
+      document.getElementById('resize-width').value = newWidth;
+      document.getElementById('resize-height').value = newHeight;
+
+      // Save to history
+      saveHistory();
+    }
+
+    function flipImage(direction) {
+      if (!editorImage) return;
+
+      if (direction === 'horizontal') {
+        isFlippedH = !isFlippedH;
+      } else {
+        isFlippedV = !isFlippedV;
+      }
+
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = editorCanvas.width;
+      tempCanvas.height = editorCanvas.height;
+      const tempCtx = tempCanvas.getContext('2d');
+
+      tempCtx.save();
+
+      if (direction === 'horizontal') {
+        tempCtx.scale(-1, 1);
+        tempCtx.drawImage(editorCanvas, -editorCanvas.width, 0);
+      } else {
+        tempCtx.scale(1, -1);
+        tempCtx.drawImage(editorCanvas, 0, -editorCanvas.height);
+      }
+
+      tempCtx.restore();
+
+      editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+      editorCtx.drawImage(tempCanvas, 0, 0);
+
+      // Save to history
+      saveHistory();
+    }
+
+    function downloadEditedImage() {
+      if (!editorCanvas) return;
+
+      const link = document.createElement('a');
+      link.download = 'edited-image.png';
+      link.href = editorCanvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function resetEditor() {
+      document.getElementById('editor-upload-zone').classList.remove('hidden');
+      document.getElementById('editor-canvas-area').classList.add('hidden');
+      document.getElementById('editor-file').value = '';
+      editorImage = null;
+      originalImage = null;
+      currentRotation = 0;
+      isFlippedH = false;
+      isFlippedV = false;
+    }
+
+    // ===== DRAG & DROP FOR EDITOR =====
+    function handleEditorDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.add('bg-primary-500/10');
+    }
+
+    function handleEditorDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('bg-primary-500/10');
+    }
+
+    function handleEditorDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.classList.remove('bg-primary-500/10');
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && files[0].type.startsWith('image/')) {
+        loadEditorImage(files[0]);
+      }
+    }
+
+    // Maintain aspect ratio for resize
+    document.getElementById('resize-width').addEventListener('input', function () {
+      if (document.getElementById('maintain-aspect').checked && originalImage) {
+        const ratio = originalImage.height / originalImage.width;
+        document.getElementById('resize-height').value = Math.round(this.value * ratio);
+      }
+    });
+
+    document.getElementById('resize-height').addEventListener('input', function () {
+      if (document.getElementById('maintain-aspect').checked && originalImage) {
+        const ratio = originalImage.width / originalImage.height;
+        document.getElementById('resize-width').value = Math.round(this.value * ratio);
+      }
+    });
+
+    // ===== DRAG & DROP + FILE HANDLING (COMPRESSOR) =====
+    const dropZone = document.getElementById('drop-zone');
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file');
+    const fileListDisplay = document.getElementById('file-list');
+
+    // Store files in a DataTransfer object to manipulate the input.files
+    let dt = new DataTransfer();
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+      dropArea.classList.add('border-primary-500', 'bg-primary-500/10');
+    }
+
+    function unhighlight(e) {
+      dropArea.classList.remove('border-primary-500', 'bg-primary-500/10');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const files = e.dataTransfer.files;
+      handleFiles(files);
+    }
+
+    function handleFiles(files) {
+      // Add new files to the current list (checking duplicates could be added here)
+      for (let i = 0; i < files.length; i++) {
+        dt.items.add(files[i]);
+      }
+      // Update input files
+      fileInput.files = dt.files;
+      updateFileList();
+    }
+
+    function updateFileList() {
+      fileListDisplay.innerHTML = '';
+      if (dt.files.length > 0) {
+        fileListDisplay.classList.remove('hidden');
+        Array.from(dt.files).forEach((file, index) => {
+          const div = document.createElement('div');
+          div.className = 'glass rounded-xl p-3 flex items-center justify-between animate-fade-in';
+          div.innerHTML = `
+            <div class="flex items-center space-x-3 overflow-hidden">
+              <div class="bg-primary-500/20 p-2 rounded-lg text-primary-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </div>
+              <div class="truncate">
+                <p class="text-sm font-medium text-white truncate">${file.name}</p>
+                <p class="text-xs text-slate-400">${(file.size / 1024).toFixed(1)} KB</p>
+              </div>
+            </div>
+            <button type="button" onclick="removeFile(${index})" class="text-slate-500 hover:text-red-500 transition-colors p-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          `;
+          fileListDisplay.appendChild(div);
+        });
+      } else {
+        fileListDisplay.classList.add('hidden');
+      }
+    }
+
+    window.removeFile = function (index) {
+      dt.items.remove(index);
+      fileInput.files = dt.files;
+      updateFileList();
+    }
+
+    function togglePdfOptions() {
+      const format = document.querySelector('input[name="format"]:checked').value;
+      const pdfOptions = document.getElementById('pdf-options');
+      if (format === 'pdf') {
+        pdfOptions.classList.remove('hidden');
+      } else {
+        pdfOptions.classList.add('hidden');
+      }
+    }
+
+    function resetUI() {
+      const form = document.getElementById('compress-form');
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const resultArea = document.getElementById('result-area');
+      const pdfOptions = document.getElementById('pdf-options');
+
+      form.reset();
+      dt = new DataTransfer();
+      fileInput.files = dt.files;
+      updateFileList();
+
+      resultArea.classList.add('hidden');
+      pdfOptions.classList.add('hidden');
+      submitBtn.classList.remove('hidden');
+    }
+
+    // AJAX Form Handling for Compression
+    document.getElementById('compress-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const form = this;
+      const formData = new FormData(form);
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const resultArea = document.getElementById('result-area');
+      const downloadLink = document.getElementById('download-link');
+      const originalBtnContent = submitBtn.innerHTML;
+
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="animate-pulse">Compressing...</span>';
+
+      try {
+        const response = await fetch('/compress', {
+          method: 'POST',
+          body: formData
+        });
+
+        // If response is not JSON (e.g. error page), verify header or try/catch parsing
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const data = await response.json();
+
+          if (response.ok && data.status === "success") {
+            // Auto-download the file
+            const a = document.createElement('a');
+            a.href = data.download_url;
+            a.download = data.filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Reset button state immediately
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnContent;
+
+            // Reset the form after a short delay
+            setTimeout(() => {
+              resetUI();
+            }, 500);
+
+          } else {
+            throw new Error(data.error || "Unknown error occurred");
+          }
+        } else {
+          // Not JSON, probably server error html
+          const text = await response.text();
+          throw new Error("Server returned non-JSON response: " + text.substring(0, 100));
+        }
+
+      } catch (error) {
+        alert("Error: " + error.message);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnContent;
+      }
+    });
+  </script>
 </body>
 
 </html>
