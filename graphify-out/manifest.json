@@ -1,0 +1,402 @@
+{
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\filecompress.py": {
+    "mtime": 1770619504.2601585,
+    "hash": "95cbb6e1d2e8de4cecc28b4ab2ff0782"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\electrobun.config.ts": {
+    "mtime": 1776669819.2070522,
+    "hash": "cb931a0ffe960da14c8caa030c6b8301"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\scripts\\prepare-web-runtime.mjs": {
+    "mtime": 1776669819.2090552,
+    "hash": "d6477baf581f49eb60752993a05818cd"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\scripts\\watch-web-runtime.mjs": {
+    "mtime": 1776669819.2090552,
+    "hash": "99947b7830488c5de706f9ff2fead3ff"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\src\\bun\\index.ts": {
+    "mtime": 1776669819.2100515,
+    "hash": "69a444e7de61f416b13bb57fa2866eb5"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\src\\bun\\runtime-server.ts": {
+    "mtime": 1776669819.2100515,
+    "hash": "47299b668f0b51899f88dff3091dbad0"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\eslint.config.js": {
+    "mtime": 1776669819.2170236,
+    "hash": "bfa4636d8de97ee717888e3a549c1a0c"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\playwright.config.ts": {
+    "mtime": 1776669819.2170236,
+    "hash": "1176ab36f0ef277040d7c8119b78205d"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\prettier.config.js": {
+    "mtime": 1776669819.2183325,
+    "hash": "56b395d7c5522014840870ceb26eae77"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\vite.config.ts": {
+    "mtime": 1776669819.4260943,
+    "hash": "c4b378257807737395079efb679d6fa6"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\e2e\\analytics.spec.ts": {
+    "mtime": 1776669819.2150197,
+    "hash": "2559e78ab0de6a0c3e5dd52632eb7f75"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\e2e\\conversions.spec.ts": {
+    "mtime": 1776669819.2150197,
+    "hash": "79f050775d74ee05aa97c39ddc0462be"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\e2e\\file-upload.spec.ts": {
+    "mtime": 1776669819.2160194,
+    "hash": "115bf17743228ff98fa35fc971880d35"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\e2e\\home.spec.ts": {
+    "mtime": 1776669819.2160194,
+    "hash": "7efc807607ff63930ffce42318ce5242"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\e2e\\media-conversions.spec.ts": {
+    "mtime": 1776669819.2170236,
+    "hash": "d96970de8739c939e12e497c1fb99400"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\sw.js": {
+    "mtime": 1776669819.2357843,
+    "hash": "6b8c4322995f8e25e7a468b2482499b0"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\router.tsx": {
+    "mtime": 1776669819.420074,
+    "hash": "69b171dcea17215cf2873751aab1c049"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routeTree.gen.ts": {
+    "mtime": 1776669819.420074,
+    "hash": "37fb044bd9d2ffe94108c4942295ae74"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\desktop-install-guide.tsx": {
+    "mtime": 1776669819.2644405,
+    "hash": "63c48e53f027aab22f296efb514eef69"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\converter\\dropzone.tsx": {
+    "mtime": 1776669819.2438033,
+    "hash": "2c3979334cbcc32b9b4b1f59d6b5f68b"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\converter\\file-list.tsx": {
+    "mtime": 1776669819.2530508,
+    "hash": "3a3c3ae1d2118a55e10263dfdc73ede6"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\converter\\format-selector.tsx": {
+    "mtime": 1776669819.2540479,
+    "hash": "619407c176b4e24bd87133256adcb828"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\converter\\index.tsx": {
+    "mtime": 1776669819.263522,
+    "hash": "2f49ea9734b35c511e52dd5099a8b495"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\layout\\header.tsx": {
+    "mtime": 1776669819.2644405,
+    "hash": "f126852d246052623475eef082cf8d51"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\breadcrumbs.tsx": {
+    "mtime": 1776669819.3192165,
+    "hash": "02a89699bc3dd1a4e33d403676ac257a"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\faq-section.tsx": {
+    "mtime": 1776669819.3192165,
+    "hash": "6360c92fe6e3a1c87db28550e2c05f75"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\format-about.tsx": {
+    "mtime": 1776669819.3202167,
+    "hash": "61766b85022bb52bab506e7d66ba45d1"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\last-updated.tsx": {
+    "mtime": 1776669819.360377,
+    "hash": "d57f42c4d75c61eab4f5252f72fc2820"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\related-conversions.tsx": {
+    "mtime": 1776669819.3623433,
+    "hash": "3826e2949fc2e156ac143ad958ddedf3"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\schema-markup.tsx": {
+    "mtime": 1776669819.3623433,
+    "hash": "7bb5d3a7fc55bf5d0c9abac9b9828525"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\step-guide.tsx": {
+    "mtime": 1776669819.3633463,
+    "hash": "117a4921070eefaa28e025765141a2c9"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\seo\\why-convert.tsx": {
+    "mtime": 1776669819.3633463,
+    "hash": "c151dcaa8f284e6702c1c1751bd8acb7"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\ui\\button.tsx": {
+    "mtime": 1776669819.364345,
+    "hash": "b3e6e596c1d373d1ab302c4d6814e673"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\ui\\card.tsx": {
+    "mtime": 1776669819.364345,
+    "hash": "61b81a468779cc0db4e6e9034d01afe6"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\components\\ui\\select.tsx": {
+    "mtime": 1776669819.3653455,
+    "hash": "ee5e4407473681bda4d994c85c39496d"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\analytics.ts": {
+    "mtime": 1776669819.3653455,
+    "hash": "9de58edb3e2558e4754d9fbae4285ddf"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\desktop-download.ts": {
+    "mtime": 1776669819.4150257,
+    "hash": "5efadae132b228260a6934107f633bcc"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\offline.ts": {
+    "mtime": 1776669819.4150257,
+    "hash": "8cb8e0ef4aa46933ae3fa4e731b9f2dd"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\posthog.ts": {
+    "mtime": 1776669819.4160254,
+    "hash": "7879076c9aa6d00f2a58f11cb6a4bb19"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\utils.ts": {
+    "mtime": 1776669819.4185486,
+    "hash": "e3f848f1b39f863e6164cf58b5a8e752"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\archive.ts": {
+    "mtime": 1776669819.3668623,
+    "hash": "94e3649ad90c8f0b69a2848c3a3963c1"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\document.ts": {
+    "mtime": 1776669819.3668623,
+    "hash": "e9f14e6574c5767c56d144670b628e3e"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\ffmpeg-assets.ts": {
+    "mtime": 1776669819.3678725,
+    "hash": "8798214c7a369e06922cd54e646522c3"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\ffmpeg.ts": {
+    "mtime": 1776669819.3678725,
+    "hash": "a73f333d6fcfe2e7b3b59b6b7d06fefd"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\image.ts": {
+    "mtime": 1776669819.41302,
+    "hash": "adda6822083788dd6dd9b5da7779e9ee"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\index.ts": {
+    "mtime": 1776669819.41302,
+    "hash": "f741956c58d2446123d1147b5b6533f7"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\registry.ts": {
+    "mtime": 1776669819.414026,
+    "hash": "0aa2b083b45ea57fbb259eb5c0ce88d8"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\converters\\types.ts": {
+    "mtime": 1776669819.414026,
+    "hash": "e09412749a90cb0626b5389e9f8e4594"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\seo\\conversions.ts": {
+    "mtime": 1776669819.4170318,
+    "hash": "c3694645e830086d0f41e5ba7e6eace4"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\seo\\formats.ts": {
+    "mtime": 1776669819.4170318,
+    "hash": "f593b98bbb6f3ac48448c1faefe8d827"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\seo\\head.ts": {
+    "mtime": 1776669819.4185486,
+    "hash": "0b532eb4db420020ff8b424c34d54f54"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\lib\\seo\\utils.ts": {
+    "mtime": 1776669819.4185486,
+    "hash": "cbfa5baab88c4a2a1d424baa3eb90339"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routes\\$conversion.tsx": {
+    "mtime": 1776669819.421093,
+    "hash": "f8eab6a81118bb00ce82fc10d2a2abad"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routes\\about.tsx": {
+    "mtime": 1776669819.4220805,
+    "hash": "363ba79a3c5f0b2025c1873490b2b1c6"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routes\\formats.tsx": {
+    "mtime": 1776669819.4220805,
+    "hash": "33d9a790dd484a9ff5c3ca98a8ea0f2f"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routes\\index.tsx": {
+    "mtime": 1776669819.423084,
+    "hash": "1cc4ab6d5e498cc69853f9d176c33537"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\routes\\__root.tsx": {
+    "mtime": 1776669819.4220805,
+    "hash": "231196562179da71e43bc79e0b753f3d"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\scripts\\generate-sitemap.ts": {
+    "mtime": 1776669819.424086,
+    "hash": "bd26abb472ef68465cc5bd41dd6f47f8"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\types\\mammoth-browser.d.ts": {
+    "mtime": 1776669819.4250796,
+    "hash": "83c860861d1b5c92277524b6159cdd8d"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\types\\vendor-modules.d.ts": {
+    "mtime": 1776669819.4250796,
+    "hash": "a505444797ef14f6a7005412d6da8364"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\archive.test.ts": {
+    "mtime": 1776669819.239285,
+    "hash": "0ae45644c6770bc583e02ad5511b2b7f"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\conversion-integrity.test.ts": {
+    "mtime": 1776669819.2402902,
+    "hash": "76ccf2a5da3881b781b1b466135df924"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\converters.test.ts": {
+    "mtime": 1776669819.2402902,
+    "hash": "2f9acf307b546399d1e6bf8bd6809e9b"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\document.test.ts": {
+    "mtime": 1776669819.241796,
+    "hash": "a9a10cf3ecc92d29129c2fd35952caae"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\image-converter.test.ts": {
+    "mtime": 1776669819.241796,
+    "hash": "ef97b0334d04c60e8b9a0fba1b4f4a62"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\registry.test.ts": {
+    "mtime": 1776669819.2428036,
+    "hash": "519fa6fe1fdb17ef97823b17bf78d5ad"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\test-utils.ts": {
+    "mtime": 1776669819.2428036,
+    "hash": "6876ad3ef26b57773ebab577fcd6a663"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\__tests__\\types.test.ts": {
+    "mtime": 1776669819.2428036,
+    "hash": "f5af21c5432301d7371cfaf09146393b"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\ads.txt": {
+    "mtime": 1770619500.78646,
+    "hash": "925e3e23fec2a0b9804a8dc7c8fc54c8"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\docker-compose.yml": {
+    "mtime": 1766465217.5108051,
+    "hash": "e7238c2a4425e49fe0ff92aa8a25f34d"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\DOCKER.md": {
+    "mtime": 1766465230.040831,
+    "hash": "c0799a051014c271069ef71b5c6be0f0"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\README.md": {
+    "mtime": 1740728132.799793,
+    "hash": "9d97c4a4bdc72df0765f8bd5d7541df7"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\requirements.txt": {
+    "mtime": 1766470932.0382688,
+    "hash": "f6e1af673f239420580f898eaebb5c04"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\brain\\project_context.md": {
+    "mtime": 1766398345.487126,
+    "hash": "4f7620dfca0ccdb7de98418af1b54b6f"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\FEATURES_IMPLEMENTATION.md": {
+    "mtime": 1780025575.4296458,
+    "hash": "64077feed299df338a65d2a84988d514"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\plan.txt": {
+    "mtime": 1776669819.4331155,
+    "hash": "42252b24466b42c7ab9573e67f2aaaec"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\README.md": {
+    "mtime": 1776669819.198029,
+    "hash": "083588bf726bc86f1a7d2d79bd8e96ff"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\README.md": {
+    "mtime": 1776669819.200029,
+    "hash": "d64035ca63d5d3f6ae45f741c42af4e0"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\README.md": {
+    "mtime": 1776669819.2130196,
+    "hash": "059b828f28c087d17e84a0337c44b869"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\docs\\posthog-analytics.md": {
+    "mtime": 1776669819.2140274,
+    "hash": "b043cc3c202ce2cfbf8a26c8235a413c"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\robots.txt": {
+    "mtime": 1776669819.2218435,
+    "hash": "c508552e96e6e05e29f2e23d6753fb26"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\templates\\index.html": {
+    "mtime": 1770620294.3248315,
+    "hash": "fd16a95945bdd375ffc2eb81220ff590"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.png": {
+    "mtime": 1776669819.2070522,
+    "hash": "d94e727b632d4d415de602dfc8484143"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_128x128.png": {
+    "mtime": 1776669819.2010286,
+    "hash": "98ba3896a72e920cd3791e8999c11f81"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_128x128@2x.png": {
+    "mtime": 1776669819.2010286,
+    "hash": "e7caa1fe05d511f137bd7d24521e3c52"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_16x16.png": {
+    "mtime": 1776669819.2020288,
+    "hash": "3bd949e88caf03d3a1669df048335855"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_16x16@2x.png": {
+    "mtime": 1776669819.2030306,
+    "hash": "0e26e045ef5074bdaf37207d913e0760"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_256x256.png": {
+    "mtime": 1776669819.2030306,
+    "hash": "e7caa1fe05d511f137bd7d24521e3c52"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_256x256@2x.png": {
+    "mtime": 1776669819.2030306,
+    "hash": "d94e727b632d4d415de602dfc8484143"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_32x32.png": {
+    "mtime": 1776669819.204536,
+    "hash": "0e26e045ef5074bdaf37207d913e0760"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_32x32@2x.png": {
+    "mtime": 1776669819.204536,
+    "hash": "8a9d430b047f1775e1fdfd7ef87cd1c5"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_512x512.png": {
+    "mtime": 1776669819.204536,
+    "hash": "d94e727b632d4d415de602dfc8484143"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\desktop\\assets\\icon.iconset\\icon_512x512@2x.png": {
+    "mtime": 1776669819.2060442,
+    "hash": "d94e727b632d4d415de602dfc8484143"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\logo.png": {
+    "mtime": 1776669819.2198336,
+    "hash": "17afcc78274a8c07dbea215ef2675c42"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\logo192.png": {
+    "mtime": 1776669819.2198336,
+    "hash": "531996dccc9decb5b4e611f1f5ca4018"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\logo512.png": {
+    "mtime": 1776669819.2198336,
+    "hash": "d94e727b632d4d415de602dfc8484143"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\tanstack-circle-logo.png": {
+    "mtime": 1776669819.238292,
+    "hash": "d48f48f33316e3702702a669f22c76e9"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\public\\tanstack-word-logo-white.svg": {
+    "mtime": 1776669819.239285,
+    "hash": "946c021317999d0cddb014c232ddd777"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\sample\\convt\\apps\\web\\src\\logo.svg": {
+    "mtime": 1776669819.4185486,
+    "hash": "355dce44cefc68f5421c952b805ebd73"
+  },
+  "E:\\DSnM\\data\\newClient\\Bharattrakers\\image_compression\\static\\og-image.jpg": {
+    "mtime": 1770622125.3958633,
+    "hash": "dedf8d8e10f99dc70f9a7bc6c8543d44"
+  }
+}

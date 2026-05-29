@@ -1,0 +1,32 @@
+{
+  "nodes": [
+    {"id": "filecompress_flask_app", "label": "Flask App (filecompress.py)", "file_type": "code", "source_file": "filecompress.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "compress_route", "label": "/compress Route", "file_type": "code", "source_file": "filecompress.py", "source_location": "34", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "index_route", "label": "/ Index Route", "file_type": "code", "source_file": "filecompress.py", "source_location": "30", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "download_file_route", "label": "/download_file Route", "file_type": "code", "source_file": "filecompress.py", "source_location": "255", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "batch_processing", "label": "Batch File Processing", "file_type": "code", "source_file": "filecompress.py", "source_location": "60", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "quality_validation", "label": "Quality Validation (1-100)", "file_type": "code", "source_file": "filecompress.py", "source_location": "45", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "output_format_jpg_webp_pdf", "label": "Output Formats JPG WEBP PDF", "file_type": "code", "source_file": "filecompress.py", "source_location": "49", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "zip_multi_download", "label": "ZIP Multi-File Download", "file_type": "code", "source_file": "filecompress.py", "source_location": "221", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "chrome_sync_delay", "label": "Filesystem Sync Delay for Chrome", "file_type": "code", "source_file": "filecompress.py", "source_location": "237", "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "convt_desktop_electrobun", "label": "Convt Desktop (Electrobun)", "file_type": "code", "source_file": "sample/convt/apps/desktop/electrobun.config.ts", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "convt_playwright_e2e", "label": "Convt Playwright E2E Tests", "file_type": "code", "source_file": "sample/convt/apps/web/playwright.config.ts", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "convt_service_worker", "label": "Convt Service Worker (PWA)", "file_type": "code", "source_file": "sample/convt/apps/web/public/sw.js", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}
+  ],
+  "edges": [
+    {"source": "filecompress_flask_app", "target": "compress_route", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "filecompress_flask_app", "target": "index_route", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "compress_route", "target": "batch_processing", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "compress_route", "target": "quality_validation", "relation": "calls", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "compress_route", "target": "output_format_jpg_webp_pdf", "relation": "shares_data_with", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "batch_processing", "target": "zip_multi_download", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "zip_multi_download", "target": "chrome_sync_delay", "relation": "rationale_for", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "filecompress.py", "source_location": "237", "weight": 1.0},
+    {"source": "convt_playwright_e2e", "target": "convt_service_worker", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.6, "source_file": "sample/convt/apps/web/playwright.config.ts", "source_location": null, "weight": 1.0},
+    {"source": "filecompress_flask_app", "target": "convt_desktop_electrobun", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.55, "source_file": "filecompress.py", "source_location": null, "weight": 1.0}
+  ],
+  "hyperedges": [
+    {"id": "compress_pipeline", "label": "Image Compression Pipeline", "nodes": ["compress_route", "batch_processing", "quality_validation", "output_format_jpg_webp_pdf", "zip_multi_download"], "relation": "form", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "filecompress.py"}
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

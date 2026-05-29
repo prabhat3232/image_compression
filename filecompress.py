@@ -294,6 +294,21 @@ def ads_txt():
     return send_from_directory(app.root_path, 'ads.txt')
 
 
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(app.root_path, 'robots.txt')
+
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    return send_from_directory(app.root_path, 'sitemap.xml', mimetype='application/xml')
+
+
+@app.route('/llms.txt')
+def llms_txt():
+    return send_from_directory(app.root_path, 'llms.txt', mimetype='text/plain; charset=utf-8')
+
+
 if __name__ == "__main__":
     print("Starting server...")
     # Threaded=True might help if connection is being dropped? 

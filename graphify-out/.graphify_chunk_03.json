@@ -1,0 +1,1011 @@
+{
+  "nodes": [
+    {
+      "id": "image_image_converter",
+      "label": "ImageConverter",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "27:164",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "image_image_converter_singleton",
+      "label": "imageConverter singleton",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "166:166",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "image_utif_tiff_decoder",
+      "label": "UTIF TIFF decoder",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "117:148",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "image_offscreen_canvas_pipeline",
+      "label": "OffscreenCanvas encode pipeline",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "45:66",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "image_create_image_bitmap_path",
+      "label": "createImageBitmap decode path",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "99:106",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "image_quality_by_format",
+      "label": "Per-format canvas quality settings",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "151:162",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "converters_convert_file",
+      "label": "convertFile",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "21:34",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "converters_can_convert",
+      "label": "canConvert",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "40:45",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "converters_get_available_output_formats",
+      "label": "getAvailableOutputFormats",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "36:38",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "converters_converter_chain",
+      "label": "Converter dispatch chain",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "14:19",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_converter_interface",
+      "label": "Converter interface",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "21:28",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_conversion_result",
+      "label": "ConversionResult",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "3:12",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_format_constants",
+      "label": "Format constant arrays",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "30:54",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_mime_type_map",
+      "label": "getMimeType mapping",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "107:154",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_resolve_input_type",
+      "label": "resolveInputType",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "192:204",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_media_kind_detectors",
+      "label": "isImageType / isVideoType / isAudioType",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/types.ts",
+      "source_location": "156:185",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_output_format_resolver",
+      "label": "getAvailableOutputFormatsFromRegistry",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "169:180",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_format_definitions",
+      "label": "FORMAT_DEFINITIONS catalog",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "46:85",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_docx_pdf_output_rules",
+      "label": "DOCX and PDF output restrictions",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "130:142",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_group_formats",
+      "label": "groupFormats",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "240:259",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_catalog_categories",
+      "label": "getCatalogCategories",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "192:200",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "registry_conversion_overview_rows",
+      "label": "getConversionOverviewRows",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "202:238",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_all_conversions",
+      "label": "ALL_CONVERSIONS",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "43:48",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_build_conversions",
+      "label": "buildConversions",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "22:36",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_conversion_slug_parser",
+      "label": "parseConversionSlug",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "61:65",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_related_conversions",
+      "label": "getRelatedConversions",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "67:85",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_popular_conversions",
+      "label": "getPopularConversions",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "91:109",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_format_info_record",
+      "label": "FORMAT_INFO",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/formats.ts",
+      "source_location": "17:673",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_generate_conversion_head",
+      "label": "generateConversionHead",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/head.ts",
+      "source_location": "13:39",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_conversion_copy_helpers",
+      "label": "conversionTitle / conversionDescription",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/utils.ts",
+      "source_location": "13:29",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seo_canonical_url",
+      "label": "canonicalUrl",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/utils.ts",
+      "source_location": "31:33",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_conversion_page",
+      "label": "Conversion SEO route ($conversion)",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "26:152",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_formats_page",
+      "label": "Formats catalog route",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/formats.tsx",
+      "source_location": "10:158",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_home_page",
+      "label": "Home route with Converter",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/index.tsx",
+      "source_location": "14:219",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_root_shell",
+      "label": "Root route shell and analytics",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/__root.tsx",
+      "source_location": "139:299",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_about_page",
+      "label": "About page with schema.org",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/about.tsx",
+      "source_location": "9:175",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "script_sitemap_generator",
+      "label": "generate-sitemap script",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/scripts/generate-sitemap.ts",
+      "source_location": "7:43",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_mammoth_browser_decl",
+      "label": "mammoth.browser.js type declarations",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/types/mammoth-browser.d.ts",
+      "source_location": "1:13",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "types_vendor_module_decl",
+      "label": "Vendor module ambient declarations",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/types/vendor-modules.d.ts",
+      "source_location": "1:13",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "test_image_converter_suite",
+      "label": "image-converter.test.ts",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/__tests__/image-converter.test.ts",
+      "source_location": "67:143",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "test_conversion_integrity_suite",
+      "label": "conversion-integrity.test.ts",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/__tests__/conversion-integrity.test.ts",
+      "source_location": "17:387",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "test_registry_seo_alignment",
+      "label": "registry SEO alignment test",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/__tests__/registry.test.ts",
+      "source_location": "131:136",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "test_utils_mock_file_helpers",
+      "label": "createMockFile / blobToText",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/__tests__/test-utils.ts",
+      "source_location": "1:26",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "concept_browser_local_privacy",
+      "label": "Browser-local privacy-first conversion",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/routes/about.tsx",
+      "source_location": "117:122",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "concept_seo_slug_pattern",
+      "label": "from-to conversion URL slugs",
+      "file_type": "code",
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "33:33",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "image_image_converter",
+      "target": "types_converter_interface",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "27:27",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter_singleton",
+      "target": "image_image_converter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "166:166",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter",
+      "target": "image_utif_tiff_decoder",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "95:97",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter",
+      "target": "image_create_image_bitmap_path",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "99:99",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter",
+      "target": "image_offscreen_canvas_pipeline",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "45:66",
+      "weight": 1.0
+    },
+    {
+      "source": "image_offscreen_canvas_pipeline",
+      "target": "image_quality_by_format",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "60:65",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter",
+      "target": "types_format_constants",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "30:31",
+      "weight": 1.0
+    },
+    {
+      "source": "image_image_converter",
+      "target": "types_mime_type_map",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/image.ts",
+      "source_location": "60:60",
+      "weight": 1.0
+    },
+    {
+      "source": "converters_converter_chain",
+      "target": "image_image_converter_singleton",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "14:16",
+      "weight": 1.0
+    },
+    {
+      "source": "converters_convert_file",
+      "target": "converters_converter_chain",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "27:33",
+      "weight": 1.0
+    },
+    {
+      "source": "converters_convert_file",
+      "target": "types_resolve_input_type",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "26:26",
+      "weight": 1.0
+    },
+    {
+      "source": "converters_get_available_output_formats",
+      "target": "registry_output_format_resolver",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "37:37",
+      "weight": 1.0
+    },
+    {
+      "source": "converters_can_convert",
+      "target": "registry_output_format_resolver",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts",
+      "source_location": "42:44",
+      "weight": 1.0
+    },
+    {
+      "source": "registry_output_format_resolver",
+      "target": "types_media_kind_detectors",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "175:177",
+      "weight": 1.0
+    },
+    {
+      "source": "registry_output_format_resolver",
+      "target": "registry_docx_pdf_output_rules",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "174:174",
+      "weight": 1.0
+    },
+    {
+      "source": "registry_group_formats",
+      "target": "registry_format_definitions",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "244:244",
+      "weight": 1.0
+    },
+    {
+      "source": "registry_catalog_categories",
+      "target": "types_format_constants",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "194:198",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_build_conversions",
+      "target": "registry_output_format_resolver",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "27:27",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_build_conversions",
+      "target": "types_mime_type_map",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "27:27",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_all_conversions",
+      "target": "seo_build_conversions",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "38:41",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_all_conversions",
+      "target": "concept_seo_slug_pattern",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/conversions.ts",
+      "source_location": "33:33",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_generate_conversion_head",
+      "target": "seo_conversion_copy_helpers",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/head.ts",
+      "source_location": "14:15",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_generate_conversion_head",
+      "target": "seo_canonical_url",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/head.ts",
+      "source_location": "16:16",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_conversion_copy_helpers",
+      "target": "seo_format_info_record",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/lib/seo/utils.ts",
+      "source_location": "4:6",
+      "weight": 1.0
+    },
+    {
+      "source": "route_conversion_page",
+      "target": "seo_conversion_slug_parser",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "28:32",
+      "weight": 1.0
+    },
+    {
+      "source": "route_conversion_page",
+      "target": "seo_generate_conversion_head",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "52:52",
+      "weight": 1.0
+    },
+    {
+      "source": "route_conversion_page",
+      "target": "seo_related_conversions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "95:95",
+      "weight": 1.0
+    },
+    {
+      "source": "route_conversion_page",
+      "target": "seo_format_info_record",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "34:41",
+      "weight": 1.0
+    },
+    {
+      "source": "route_formats_page",
+      "target": "registry_catalog_categories",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/formats.tsx",
+      "source_location": "25:26",
+      "weight": 1.0
+    },
+    {
+      "source": "route_formats_page",
+      "target": "seo_popular_conversions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/formats.tsx",
+      "source_location": "28:28",
+      "weight": 1.0
+    },
+    {
+      "source": "route_home_page",
+      "target": "seo_popular_conversions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/index.tsx",
+      "source_location": "34:34",
+      "weight": 1.0
+    },
+    {
+      "source": "route_root_shell",
+      "target": "seo_popular_conversions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/__root.tsx",
+      "source_location": "18:20",
+      "weight": 1.0
+    },
+    {
+      "source": "script_sitemap_generator",
+      "target": "seo_all_conversions",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/scripts/generate-sitemap.ts",
+      "source_location": "14:18",
+      "weight": 1.0
+    },
+    {
+      "source": "test_image_converter_suite",
+      "target": "image_image_converter_singleton",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/image-converter.test.ts",
+      "source_location": "18:18",
+      "weight": 1.0
+    },
+    {
+      "source": "test_image_converter_suite",
+      "target": "image_utif_tiff_decoder",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/image-converter.test.ts",
+      "source_location": "103:117",
+      "weight": 1.0
+    },
+    {
+      "source": "test_conversion_integrity_suite",
+      "target": "converters_convert_file",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/conversion-integrity.test.ts",
+      "source_location": "231:231",
+      "weight": 1.0
+    },
+    {
+      "source": "test_conversion_integrity_suite",
+      "target": "registry_output_format_resolver",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "sample/convt/apps/web/src/__tests__/conversion-integrity.test.ts",
+      "source_location": "22:29",
+      "weight": 1.0
+    },
+    {
+      "source": "test_registry_seo_alignment",
+      "target": "seo_all_conversions",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/registry.test.ts",
+      "source_location": "132:135",
+      "weight": 1.0
+    },
+    {
+      "source": "test_registry_seo_alignment",
+      "target": "converters_can_convert",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/registry.test.ts",
+      "source_location": "134:134",
+      "weight": 1.0
+    },
+    {
+      "source": "route_about_page",
+      "target": "concept_browser_local_privacy",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/about.tsx",
+      "source_location": "117:122",
+      "weight": 1.0
+    },
+    {
+      "source": "route_home_page",
+      "target": "concept_browser_local_privacy",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/routes/index.tsx",
+      "source_location": "67:68",
+      "weight": 1.0
+    },
+    {
+      "source": "registry_docx_pdf_output_rules",
+      "target": "types_mime_type_map",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "sample/convt/apps/web/src/lib/converters/registry.ts",
+      "source_location": "91:93",
+      "weight": 1.0
+    },
+    {
+      "source": "seo_format_info_record",
+      "target": "registry_format_definitions",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "sample/convt/apps/web/src/lib/seo/formats.ts",
+      "source_location": "17:673",
+      "weight": 1.0
+    },
+    {
+      "source": "types_mammoth_browser_decl",
+      "target": "types_vendor_module_decl",
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "sample/convt/apps/web/src/types/vendor-modules.d.ts",
+      "source_location": "1:4",
+      "weight": 1.0
+    },
+    {
+      "source": "test_utils_mock_file_helpers",
+      "target": "test_image_converter_suite",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "sample/convt/apps/web/src/__tests__/image-converter.test.ts",
+      "source_location": "4:4",
+      "weight": 1.0
+    },
+    {
+      "source": "route_conversion_page",
+      "target": "converters_convert_file",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx",
+      "source_location": "125:125",
+      "weight": 0.8
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "converter_dispatch_pipeline",
+      "label": "Multi-format converter dispatch",
+      "nodes": [
+        "converters_convert_file",
+        "converters_converter_chain",
+        "image_image_converter_singleton",
+        "types_converter_interface",
+        "registry_output_format_resolver"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "sample/convt/apps/web/src/lib/converters/index.ts"
+    },
+    {
+      "id": "seo_conversion_landing_stack",
+      "label": "SEO conversion landing page stack",
+      "nodes": [
+        "route_conversion_page",
+        "seo_conversion_slug_parser",
+        "seo_generate_conversion_head",
+        "seo_all_conversions",
+        "seo_format_info_record",
+        "concept_seo_slug_pattern"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.92,
+      "source_file": "sample/convt/apps/web/src/routes/$conversion.tsx"
+    },
+    {
+      "id": "registry_seo_runtime_contract",
+      "label": "Registry–SEO–runtime capability contract",
+      "nodes": [
+        "registry_output_format_resolver",
+        "seo_all_conversions",
+        "converters_can_convert",
+        "test_registry_seo_alignment",
+        "test_conversion_integrity_suite"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.88,
+      "source_file": "sample/convt/apps/web/src/__tests__/registry.test.ts"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

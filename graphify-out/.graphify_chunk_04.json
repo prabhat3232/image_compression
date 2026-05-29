@@ -1,0 +1,51 @@
+{
+  "nodes": [
+    {"id": "readme_image_compression", "label": "Image Compression Project", "file_type": "document", "source_file": "README.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "brain_media_tools_app", "label": "Media Tools Web App", "file_type": "document", "source_file": "brain/project_context.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "flask_backend", "label": "Flask Backend", "file_type": "document", "source_file": "brain/project_context.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "image_compressor_feature", "label": "Image Compressor", "file_type": "document", "source_file": "brain/project_context.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "client_side_image_editor", "label": "Client-Side Image Editor", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ffmpeg_processing", "label": "FFmpeg Processing", "file_type": "document", "source_file": "brain/project_context.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "pillow_pdf_conversion", "label": "Pillow PDF Conversion", "file_type": "document", "source_file": "brain/project_context.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "img2pdf_lossless_pdf", "label": "img2pdf Lossless PDF", "file_type": "document", "source_file": "filecompress.py", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "pdf_merge", "label": "PDF Merge", "file_type": "document", "source_file": "DOCKER.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "docker_deployment", "label": "Docker Deployment", "file_type": "document", "source_file": "DOCKER.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "docker_compose_service", "label": "Docker Compose Service", "file_type": "document", "source_file": "docker-compose.yml", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "port_3000", "label": "Port 3000", "file_type": "document", "source_file": "docker-compose.yml", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "uploads_static_volumes", "label": "Uploads and Static Volumes", "file_type": "document", "source_file": "docker-compose.yml", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "tailwind_cdn_ui", "label": "Tailwind CDN UI", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "google_adsense", "label": "Google AdSense", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "google_analytics", "label": "Google Analytics", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "compress_dsnmsolutions", "label": "compress.dsnmsolutions.com", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "ajax_compress_endpoint", "label": "AJAX /compress Endpoint", "file_type": "document", "source_file": "templates/index.html", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "sample_convt_reference", "label": "Convt Sample Reference App", "file_type": "document", "source_file": "sample/convt/README.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "browser_side_converters", "label": "Browser-Side Converters", "file_type": "document", "source_file": "sample/convt/README.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null},
+    {"id": "posthog_analytics_convt", "label": "PostHog Analytics (Convt)", "file_type": "document", "source_file": "sample/convt/apps/web/docs/posthog-analytics.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}
+  ],
+  "edges": [
+    {"source": "brain_media_tools_app", "target": "flask_backend", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "brain_media_tools_app", "target": "image_compressor_feature", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "brain_media_tools_app", "target": "client_side_image_editor", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "image_compressor_feature", "target": "ffmpeg_processing", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "image_compressor_feature", "target": "pillow_pdf_conversion", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "pillow_pdf_conversion", "target": "img2pdf_lossless_pdf", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.75, "source_file": "filecompress.py", "source_location": null, "weight": 1.0},
+    {"source": "img2pdf_lossless_pdf", "target": "pdf_merge", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "DOCKER.md", "source_location": null, "weight": 1.0},
+    {"source": "docker_deployment", "target": "docker_compose_service", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "DOCKER.md", "source_location": null, "weight": 1.0},
+    {"source": "docker_compose_service", "target": "port_3000", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docker-compose.yml", "source_location": null, "weight": 1.0},
+    {"source": "docker_compose_service", "target": "uploads_static_volumes", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "docker-compose.yml", "source_location": null, "weight": 1.0},
+    {"source": "client_side_image_editor", "target": "tailwind_cdn_ui", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "templates/index.html", "source_location": null, "weight": 1.0},
+    {"source": "ajax_compress_endpoint", "target": "image_compressor_feature", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "templates/index.html", "source_location": null, "weight": 1.0},
+    {"source": "google_adsense", "target": "compress_dsnmsolutions", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "templates/index.html", "source_location": null, "weight": 1.0},
+    {"source": "google_analytics", "target": "compress_dsnmsolutions", "relation": "conceptually_related_to", "confidence": "INFERRED", "confidence_score": 0.85, "source_file": "templates/index.html", "source_location": null, "weight": 1.0},
+    {"source": "sample_convt_reference", "target": "browser_side_converters", "relation": "conceptually_related_to", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "sample/convt/README.md", "source_location": null, "weight": 1.0},
+    {"source": "browser_side_converters", "target": "ffmpeg_processing", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "sample/convt/README.md", "source_location": null, "weight": 1.0},
+    {"source": "client_side_image_editor", "target": "browser_side_converters", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "templates/index.html", "source_location": null, "weight": 1.0},
+    {"source": "image_compressor_feature", "target": "sample_convt_reference", "relation": "semantically_similar_to", "confidence": "INFERRED", "confidence_score": 0.65, "source_file": "brain/project_context.md", "source_location": null, "weight": 1.0},
+    {"source": "flask_backend", "target": "docker_deployment", "relation": "rationale_for", "confidence": "INFERRED", "confidence_score": 0.7, "source_file": "DOCKER.md", "source_location": null, "weight": 1.0}
+  ],
+  "hyperedges": [
+    {"id": "media_tools_stack", "label": "Media Tools Production Stack", "nodes": ["flask_backend", "ffmpeg_processing", "docker_deployment", "port_3000", "uploads_static_volumes"], "relation": "participate_in", "confidence": "INFERRED", "confidence_score": 0.8, "source_file": "DOCKER.md"}
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

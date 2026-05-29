@@ -1,0 +1,33 @@
+# FileShrinkr
+> Free online image compression and editing at https://fileshrinkr.com
+
+## Summary
+FileShrinkr helps users compress images and perform basic edits in the browser. Compression runs server-side; the image editor (crop, resize, rotate, flip) runs client-side with HTML5 Canvas.
+
+## Primary URL
+- https://fileshrinkr.com/
+
+## Features
+- Compress JPG, PNG, WEBP, SVG → JPG, WEBP, or PDF
+- Adjustable compression quality (1–100)
+- Batch upload; multiple files download as ZIP
+- Merge multiple images into one PDF
+- Optional lossless PDF (img2pdf) vs compressed PDF (Pillow)
+- Client-side image editor with undo/redo
+
+## API
+- POST /compress — multipart form upload; returns JSON with download_url
+- GET /static/{filename} — download compressed output
+- GET /ads.txt — Google AdSense authorized sellers
+
+## Tech stack
+- Backend: Python Flask, FFmpeg, Pillow, img2pdf
+- Frontend: HTML, Tailwind CSS, vanilla JavaScript
+- Deployment: Docker on port 3000
+
+## Publisher
+DSnM Solutions
+
+## Optional
+- Sitemap: https://fileshrinkr.com/sitemap.xml
+- Robots: https://fileshrinkr.com/robots.txt
