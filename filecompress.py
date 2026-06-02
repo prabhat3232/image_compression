@@ -291,7 +291,16 @@ def download_file_route(filename):
 
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory(app.root_path, 'ads.txt')
+    response = send_from_directory(
+        app.root_path,
+        'ads.txt',
+        mimetype='text/plain; charset=utf-8',
+    )
+    # Help crawlers avoid caching stale/mis-typed responses.
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 
 @app.route('/robots.txt')
