@@ -1,0 +1,21 @@
+<title>{{ page_title }} | FileShrinkr</title>
+<meta name="description" content="{{ page_description }}">
+<meta name="author" content="DSnM Solutions">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#0f172a">
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FileShrinkr">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title }} | FileShrinkr">
+<meta property="og:description" content="{{ page_description }}">
+<meta property="og:image" content="https://fileshrinkr.com/static/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title }} | FileShrinkr">
+<meta name="twitter:description" content="{{ page_description }}">
+<meta name="twitter:image" content="https://fileshrinkr.com/static/og-image.jpg">
+{% if schema_json %}
+<script type="application/ld+json">{{ schema_json | safe }}</script>
+{% endif %}

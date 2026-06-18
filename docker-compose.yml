@@ -12,4 +12,6 @@ services:
       - ./static:/app/static
     environment:
       - FLASK_ENV=production
+    env_file:
+      - .env
     restart: unless-stopped

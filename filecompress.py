@@ -1,18 +1,43 @@
 import os
 import time
 import zipfile
+from collections import defaultdict
 from datetime import datetime
 import shutil
 import io
 
-from flask import Flask, render_template, request, jsonify, send_file, make_response, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_file, make_response, send_from_directory, abort, Response
 from werkzeug.utils import secure_filename
 from PIL import Image
 import ffmpeg
 import img2pdf
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+from content.config import SITE_URL, CONTACT_EMAIL, all_sitemap_paths
+from content.pages import TRUST_PAGES, PHASE3_PAGES, canonical, build_schema_graph
+from content.landing_pages import LANDING_PAGES, get_landing, all_landing_slugs
+from content.guides import GUIDES, get_guide, all_guide_slugs
+from content.glossary import GLOSSARY, get_glossary_term, all_glossary_slugs
+from content.home_faq import HOME_FAQS, POPULAR_TOOLS
+from content.mail import contact_delivery_configured, send_contact_email
+
 app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.secret_key = "your_secret_key"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change-me-in-production")
+
+RESIZE_PRESETS = {
+    "instagram_square": (1080, 1080),
+    "facebook": (1200, 630),
+    "youtube": (1280, 720),
+}
+
+CONTACT_RATE_LIMIT = defaultdict(list)
+CONTACT_RATE_MAX = 3
+CONTACT_RATE_WINDOW = 3600
 
 # Configuration
 app.config["UPLOAD_FOLDER"] = "uploads"
@@ -27,9 +52,84 @@ STATIC_FOLDER = "static"
 if not os.path.exists(STATIC_FOLDER):
     os.makedirs(STATIC_FOLDER)
 
+
+def _resolve_related(slugs):
+    related = []
+    for slug in slugs:
+        page = LANDING_PAGES.get(slug) or PHASE3_PAGES.get(slug) or TRUST_PAGES.get(slug)
+        if page:
+            related.append({"slug": slug, "title": page.get("h1") or page.get("title", slug)})
+    return related
+
+
+def _contact_rate_ok(ip):
+    now = time.time()
+    hits = [t for t in CONTACT_RATE_LIMIT[ip] if now - t < CONTACT_RATE_WINDOW]
+    CONTACT_RATE_LIMIT[ip] = hits
+    if len(hits) >= CONTACT_RATE_MAX:
+        return False
+    hits.append(now)
+    return True
+
+
+def _resize_cover(img, target_w, target_h):
+    img_ratio = img.width / img.height
+    target_ratio = target_w / target_h
+    if img_ratio > target_ratio:
+        new_h = target_h
+        new_w = int(target_h * img_ratio)
+    else:
+        new_w = target_w
+        new_h = int(target_w / img_ratio)
+    img = img.resize((new_w, new_h), Image.LANCZOS)
+    left = (new_w - target_w) // 2
+    top = (new_h - target_h) // 2
+    return img.crop((left, top, left + target_w, top + target_h))
+
+
+def _finalize_raster(path, output_format, quality, strip_exif=False, resize_preset=None):
+    image = Image.open(path)
+    if resize_preset and resize_preset in RESIZE_PRESETS:
+        tw, th = RESIZE_PRESETS[resize_preset]
+        image = _resize_cover(image.convert("RGB"), tw, th)
+    elif output_format in ("jpg", "pdf"):
+        image = image.convert("RGB")
+
+    root, _ = os.path.splitext(path)
+    out_path = path if output_format == "jpg" else f"{root}.{output_format}"
+
+    save_kwargs = {}
+    if strip_exif:
+        save_kwargs["exif"] = b""
+
+    if output_format == "webp":
+        image.save(out_path, "WEBP", quality=quality, method=6)
+    elif output_format == "jpg":
+        image.save(out_path, "JPEG", quality=quality, optimize=True, **save_kwargs)
+    else:
+        image.save(out_path, quality=quality, **save_kwargs)
+
+    if out_path != path and os.path.exists(path):
+        os.remove(path)
+    return out_path
+
+
+def _json_with_sizes(payload, original_size, compressed_size):
+    if original_size and compressed_size:
+        payload["original_size"] = original_size
+        payload["compressed_size"] = compressed_size
+    return jsonify(payload)
+
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    latest = [GUIDES[s] for s in all_guide_slugs()[:3]]
+    return render_template(
+        "index.html",
+        home_faqs=HOME_FAQS,
+        popular_tools=POPULAR_TOOLS,
+        latest_guides=latest,
+    )
 
 @app.route("/compress", methods=["POST"])
 def compress_image():
@@ -52,6 +152,10 @@ def compress_image():
 
     merge_pdf = request.form.get("merge_pdf") == "on"
     compress_pdf_images = request.form.get("compress_pdf_images", "on") == "on"
+    strip_exif = request.form.get("strip_exif") == "on"
+    resize_preset = request.form.get("resize_preset")
+    if resize_preset not in RESIZE_PRESETS:
+        resize_preset = None
     
     print(f"DEBUG: compress_pdf_images checkbox value: {request.form.get('compress_pdf_images')}")
     print(f"DEBUG: compress_pdf_images boolean: {compress_pdf_images}")
@@ -69,6 +173,7 @@ def compress_image():
     pdf_merge_inputs = []     # List of absolute paths for PDF merging
     pdf_merge_original_inputs = []  # List of original files for lossless PDF merging
     errors = []
+    original_size = 0
 
     try:
         for file in files:
@@ -78,6 +183,7 @@ def compress_image():
             filename = secure_filename(file.filename)
             input_path = os.path.join(batch_dir, filename)
             file.save(input_path)
+            original_size += os.path.getsize(input_path)
 
             file_root, _ = os.path.splitext(filename)
             
@@ -123,6 +229,28 @@ def compress_image():
                 print(error_msg)
                 errors.append(error_msg)
                 continue
+
+            # Post-process: resize preset, EXIF strip, WEBP conversion
+            raster_format = "jpg" if output_format == "pdf" else output_format
+            needs_pillow = (
+                raster_format == "webp"
+                or strip_exif
+                or resize_preset
+            )
+            if needs_pillow and not (output_format == "pdf" and not compress_pdf_images):
+                try:
+                    compressed_path = _finalize_raster(
+                        compressed_path,
+                        raster_format,
+                        quality,
+                        strip_exif=strip_exif,
+                        resize_preset=resize_preset,
+                    )
+                except Exception as e:
+                    error_msg = f"Error post-processing {filename}: {str(e)}"
+                    print(error_msg)
+                    errors.append(error_msg)
+                    continue
 
             # 2. Convert to Individual PDF if needed
             if output_format == "pdf" and not merge_pdf:
@@ -195,11 +323,12 @@ def compress_image():
                         pdf_file.write(img2pdf.convert(pdf_merge_original_inputs))
                 
                 time.sleep(2.0) # Flush
-                return jsonify({
-                    "status": "success", 
+                compressed_size = os.path.getsize(merged_pdf_path)
+                return _json_with_sizes({
+                    "status": "success",
                     "download_url": f"/static/{merged_pdf_name}",
                     "filename": merged_pdf_name
-                })
+                }, original_size, compressed_size)
             except Exception as e:
                 return jsonify({"error": f"Merge error: {str(e)}"}), 500
 
@@ -212,11 +341,12 @@ def compress_image():
             shutil.copy(file_path, target_path)
             
             time.sleep(2.0) # Flush
-            return jsonify({
+            compressed_size = os.path.getsize(target_path)
+            return _json_with_sizes({
                 "status": "success",
                 "download_url": f"/static/{filename}",
                 "filename": filename
-            })
+            }, original_size, compressed_size)
 
         # Case C: Multiple Files -> ZIP
         zip_name = f"compressed_{batch_id}.zip"
@@ -237,11 +367,12 @@ def compress_image():
             # FILE SYSTEM SYNC DELAY (Crucial for Chrome)
             time.sleep(2.0)
             
-            return jsonify({
+            compressed_size = os.path.getsize(zip_path)
+            return _json_with_sizes({
                 "status": "success",
                 "download_url": f"/static/{zip_name}",
                 "filename": zip_name
-            })
+            }, original_size, compressed_size)
             
         except Exception as e:
              return jsonify({"error": f"ZIP error: {str(e)}"}), 500
@@ -310,12 +441,171 @@ def robots_txt():
 
 @app.route('/sitemap.xml')
 def sitemap_xml():
-    return send_from_directory(app.root_path, 'sitemap.xml', mimetype='application/xml')
+    today = datetime.now().strftime("%Y-%m-%d")
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for path in all_sitemap_paths():
+        loc = SITE_URL + (path if path != "/" else "/")
+        priority = "1.0" if path == "/" else "0.8"
+        changefreq = "weekly" if path in ("/", "/guides") else "monthly"
+        lines.append(
+            f"  <url><loc>{loc}</loc><lastmod>{today}</lastmod>"
+            f"<changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
+        )
+    lines.append("</urlset>")
+    response = Response("\n".join(lines), mimetype="application/xml")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
 
 
 @app.route('/llms.txt')
 def llms_txt():
-    return send_from_directory(app.root_path, 'llms.txt', mimetype='text/plain; charset=utf-8')
+    body = [
+        "# FileShrinkr",
+        f"# {SITE_URL}",
+        "",
+        "FileShrinkr is a free online image compressor and editor by DSnM Solutions.",
+        "Supports JPG, PNG, WEBP, SVG upload; JPG, WEBP, PDF output; batch ZIP; PDF merge.",
+        "",
+        "## Pages",
+    ]
+    for path in all_sitemap_paths():
+        body.append(f"- {SITE_URL}{path if path != '/' else '/'}")
+    response = Response("\n".join(body) + "\n", mimetype="text/plain; charset=utf-8")
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
+
+
+def _render_trust(slug, flash_message=None, flash_ok=False):
+    page = TRUST_PAGES.get(slug)
+    if not page:
+        abort(404)
+    return render_template(
+        "pages/trust.html",
+        slug=slug,
+        page=page,
+        canonical=canonical(f"/{slug}"),
+        contact_email=CONTACT_EMAIL,
+        smtp_configured=contact_delivery_configured(),
+        flash_message=flash_message,
+        flash_ok=flash_ok,
+    )
+
+
+@app.route("/about")
+def about():
+    return _render_trust("about")
+
+
+@app.route("/privacy")
+def privacy():
+    return _render_trust("privacy")
+
+
+@app.route("/terms")
+def terms():
+    return _render_trust("terms")
+
+
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    flash_message = None
+    flash_ok = False
+    if request.method == "POST":
+        if request.form.get("website"):
+            flash_message = "Thank you. Your message was sent."
+            flash_ok = True
+        elif not _contact_rate_ok(request.remote_addr or "unknown"):
+            flash_message = "Too many messages. Please try again later or email us directly."
+        else:
+            name = (request.form.get("name") or "").strip()[:120]
+            email = (request.form.get("email") or "").strip()[:200]
+            subject = (request.form.get("subject") or "").strip()[:200]
+            message = (request.form.get("message") or "").strip()[:5000]
+            if name and email and subject and message:
+                ok, err = send_contact_email(name, email, subject, message)
+                if ok:
+                    flash_message = "Thank you. We received your message and will respond soon."
+                    flash_ok = True
+                else:
+                    flash_message = err or "Could not send message. Please email us directly."
+            else:
+                flash_message = "Please fill in all fields."
+    return _render_trust("contact", flash_message=flash_message, flash_ok=flash_ok)
+
+
+def _render_landing(slug):
+    page = get_landing(slug) or PHASE3_PAGES.get(slug)
+    if not page:
+        abort(404)
+    page_url = canonical(f"/{slug}")
+    howto = None
+    if page.get("howto_steps"):
+        howto = {
+            "name": page["h1"],
+            "description": page["description"],
+            "steps": page["howto_steps"],
+        }
+    schema_json = build_schema_graph(page_url, faqs=page.get("faqs"), howto=howto)
+    return render_template(
+        "pages/landing.html",
+        page=page,
+        canonical=page_url,
+        schema_json=schema_json,
+        related=_resolve_related(page.get("related_slugs", [])),
+    )
+
+
+@app.route("/guides")
+def guides_index():
+    guides = [GUIDES[s] for s in all_guide_slugs()]
+    return render_template("blog/index.html", guides=guides, canonical=canonical("/guides"))
+
+
+@app.route("/guides/<slug>")
+def guide_detail(slug):
+    guide = get_guide(slug)
+    if not guide:
+        abort(404)
+    related = [GUIDES[s] for s in guide.get("related_guides", []) if s in GUIDES]
+    return render_template(
+        "blog/post.html",
+        guide=guide,
+        canonical=canonical(f"/guides/{slug}"),
+        related=related,
+    )
+
+
+@app.route("/glossary")
+def glossary_index():
+    terms = [GLOSSARY[s] for s in all_glossary_slugs()]
+    return render_template("glossary.html", terms=terms, term=None, canonical=canonical("/glossary"))
+
+
+@app.route("/glossary/<slug>")
+def glossary_detail(slug):
+    term = get_glossary_term(slug)
+    if not term:
+        abort(404)
+    related_terms = [GLOSSARY[s] for s in term.get("related_terms", []) if s in GLOSSARY]
+    return render_template(
+        "glossary.html",
+        term=term,
+        terms=None,
+        related_terms=related_terms,
+        canonical=canonical(f"/glossary/{slug}"),
+    )
+
+
+def _make_landing_view(slug):
+    def view():
+        return _render_landing(slug)
+    view.__name__ = f"landing_{slug}"
+    return view
+
+
+for _slug in all_landing_slugs() + list(PHASE3_PAGES.keys()):
+    app.add_url_rule(f"/{_slug}", endpoint=f"landing_{_slug}", view_func=_make_landing_view(_slug))
 
 
 if __name__ == "__main__":

@@ -1,2 +1,7 @@
 .venv
 sample
+__pycache__
+*.pyc
+.env
+uploads/
+temp/

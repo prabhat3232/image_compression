@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block seo %}
+{% set page_title = guide.title %}
+{% set page_description = guide.description %}
+{% set canonical_url = canonical %}
+{% include 'partials/seo_head.html' %}
+{% endblock %}
+{% block content %}
+<article class="max-w-3xl mx-auto">
+  <header class="mb-8">
+    <p class="text-primary-400 text-sm mb-2"><a href="/guides" class="hover:underline">Guides</a></p>
+    <h1 class="text-4xl font-bold text-white mb-4">{{ guide.title }}</h1>
+    <p class="text-slate-400">{{ guide.description }}</p>
+  </header>
+  <div class="prose-content">
+    {% for section in guide.sections %}
+    <h2>{{ section.heading }}</h2>
+    {% for p in section.paragraphs %}
+    <p>{{ p }}</p>
+    {% endfor %}
+    {% endfor %}
+  </div>
+  {% if related %}
+  <section class="mt-12">
+    <h2 class="text-xl font-bold text-white mb-4">Related guides</h2>
+    <ul class="space-y-2">
+      {% for r in related %}
+      <li><a href="/guides/{{ r.slug }}" class="text-primary-400 hover:underline">{{ r.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</article>
+{% include 'partials/ads_unit.html' %}
+{% endblock %}

@@ -12,3 +12,4 @@ pillow==10.4.0
 werkzeug==3.0.6
 zipp==3.20.2
 img2pdf==0.5.1
+python-dotenv==1.0.1

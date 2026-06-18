@@ -122,38 +122,16 @@
         "@type": "FAQPage",
         "@id": "https://fileshrinkr.com/#faq",
         "mainEntity": [
+{% for faq in home_faqs %}
           {
             "@type": "Question",
-            "name": "What image formats does FileShrinkr support?",
+            "name": {{ faq.q | tojson }},
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "FileShrinkr accepts common image formats including JPG, PNG, WEBP, and SVG. You can export compressed files as JPG, WEBP, or PDF."
+              "text": {{ faq.a | tojson }}
             }
-          },
-          {
-            "@type": "Question",
-            "name": "Is FileShrinkr free to use?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. FileShrinkr is a free online tool for compressing and editing images with no account required."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does the image editor run in my browser?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Crop, resize, rotate, and flip run client-side in your browser using HTML5 Canvas. Compressed output is processed on the server via the /compress endpoint."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I merge multiple images into one PDF?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. Select PDF as the output format and enable Merge all images into one PDF. You can choose compressed or lossless PDF quality."
-            }
-          }
+          }{% if not loop.last %},{% endif %}
+{% endfor %}
         ]
       }
     ]
@@ -265,6 +243,8 @@
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    {% include 'partials/nav.html' %}
 
     <!-- AdSense: Top Banner -->
     <div class="w-full flex justify-center mb-8">
@@ -428,6 +408,16 @@
                     Uncheck to preserve original quality (larger file size)
                   </p>
                 </div>
+
+                <label class="flex items-center space-x-3 cursor-pointer group mt-4">
+                  <div class="relative">
+                    <input type="checkbox" name="strip_exif" class="peer sr-only">
+                    <div
+                      class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                  </div>
+                  <span class="text-slate-300 group-hover:text-white transition-colors">Remove EXIF metadata (GPS, camera info)</span>
+                </label>
               </div>
             </div>
 
@@ -442,7 +432,7 @@
               </svg>
             </button>
 
-            </button>
+            <p id="compress-stats" class="text-sm text-slate-400 text-center mt-3 min-h-[1.25rem]"></p>
 
             <!-- Result Area -->
             <div id="result-area" class="hidden mt-8 animate-fade-in">
@@ -648,6 +638,36 @@
 
     </main>
 
+    <!-- Popular tools -->
+    <section class="w-full max-w-4xl mx-auto mt-16" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="text-2xl font-bold text-white mb-6 text-center">Popular tools</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for tool in popular_tools %}
+        <li>
+          <a href="{{ tool.url }}" class="block glass rounded-xl p-4 h-full hover:border-primary-500 border border-transparent transition-colors">
+            <span class="text-white font-semibold block mb-1">{{ tool.title }}</span>
+            <span class="text-slate-400 text-sm">{{ tool.desc }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    {% if latest_guides %}
+    <section class="w-full max-w-4xl mx-auto mt-16" aria-labelledby="guides-heading">
+      <h2 id="guides-heading" class="text-2xl font-bold text-white mb-6 text-center">Latest guides</h2>
+      <ul class="space-y-4">
+        {% for g in latest_guides %}
+        <li class="glass rounded-xl p-4">
+          <a href="/guides/{{ g.slug }}" class="text-white font-semibold hover:text-primary-400">{{ g.title }}</a>
+          <p class="text-slate-400 text-sm mt-1">{{ g.description }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="text-center mt-6"><a href="/guides" class="text-primary-400 hover:underline">View all guides</a></p>
+    </section>
+    {% endif %}
+
     <!-- Crawlable content for search engines and AI assistants -->
     <section id="features" class="w-full max-w-4xl mx-auto mt-16 space-y-12 text-slate-300"
       aria-labelledby="features-heading">
@@ -682,31 +702,17 @@
       <div>
         <h2 id="faq-heading" class="text-2xl font-bold text-white mb-4">Frequently asked questions</h2>
         <dl class="space-y-4">
+          {% for faq in home_faqs %}
           <div>
-            <dt class="font-semibold text-white">What image formats does FileShrinkr support?</dt>
-            <dd class="mt-1">Upload JPG, PNG, WEBP, and SVG. Download compressed JPG or WEBP, or convert to PDF.</dd>
+            <dt class="font-semibold text-white">{{ faq.q }}</dt>
+            <dd class="mt-1">{{ faq.a }}</dd>
           </div>
-          <div>
-            <dt class="font-semibold text-white">Is FileShrinkr free?</dt>
-            <dd class="mt-1">Yes — compression and editing are free with no account required.</dd>
-          </div>
-          <div>
-            <dt class="font-semibold text-white">Where is editing processed?</dt>
-            <dd class="mt-1">The image editor runs in your browser. Server-side compression uses FFmpeg and Pillow via
-              the <code class="text-primary-400">/compress</code> API.</dd>
-          </div>
-          <div>
-            <dt class="font-semibold text-white">Can I merge images into one PDF?</dt>
-            <dd class="mt-1">Yes. Select PDF output and enable &ldquo;Merge all images into one PDF.&rdquo;</dd>
-          </div>
+          {% endfor %}
         </dl>
       </div>
     </section>
 
-    <footer class="w-full max-w-4xl mx-auto mt-12 pt-8 border-t border-slate-700 text-center text-sm text-slate-500">
-      <p>&copy; <span id="footer-year"></span> DSnM Solutions &middot; <a href="https://fileshrinkr.com/"
-          class="hover:text-primary-400">FileShrinkr</a> — free online image tools</p>
-    </footer>
+    {% include 'partials/footer.html' %}
 
     <!-- AdSense: Bottom Banner -->
     <div class="w-full flex justify-center mt-12">
@@ -720,8 +726,6 @@
   </div>
 
   <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-
     // ===== TAB SWITCHING =====
     function switchTab(tab) {
       const compressorTab = document.getElementById('tab-compressor');
@@ -1319,7 +1323,10 @@
       const submitBtn = form.querySelector('button[type="submit"]');
       const resultArea = document.getElementById('result-area');
       const downloadLink = document.getElementById('download-link');
+      const compressStats = document.getElementById('compress-stats');
       const originalBtnContent = submitBtn.innerHTML;
+
+      if (compressStats) compressStats.textContent = '';
 
       // Show loading state
       submitBtn.disabled = true;
@@ -1344,6 +1351,12 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+
+            if (compressStats && data.original_size && data.compressed_size) {
+              const saved = ((1 - data.compressed_size / data.original_size) * 100).toFixed(1);
+              const fmt = (n) => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
+              compressStats.textContent = `Saved ${saved}% (${fmt(data.original_size)} → ${fmt(data.compressed_size)})`;
+            }
 
             // Reset button state immediately
             submitBtn.disabled = false;
