@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block seo %}
 {% set page_title = "Image compression guides" %}
-{% set page_description = "How-to guides for compressing images, choosing formats, and preparing photos for web and email." %}
+{% set page_description = "Image compression guides — resize photos for government exam forms, HEIC, AVIF, PNG, target KB sizes, PDF merge, and web performance." %}
 {% set canonical_url = canonical %}
 {% include 'partials/seo_head.html' %}
 {% endblock %}
 {% block content %}
 <div class="max-w-4xl mx-auto">
   <h1 class="text-4xl font-bold text-white mb-4 text-center">Guides</h1>
-  <p class="text-slate-400 text-center mb-12">Practical image compression and format advice from FileShrinkr.</p>
+  <p class="text-slate-400 text-center mb-12">Practical guides for HEIC and AVIF compression, PNG export, target KB sizes, PDF merge, and web performance.</p>
   <ul class="space-y-6">
     {% for g in guides %}
     <li class="glass rounded-2xl p-6">

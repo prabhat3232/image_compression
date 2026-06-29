@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block seo %}
 {% set page_title = "Glossary" %}
-{% set page_description = "Image compression glossary — lossy, lossless, EXIF, DPI, WEBP, and more." %}
+{% set page_description = "Image compression glossary — lossy, lossless, EXIF, AVIF, HEIC, DPI, WEBP, and more." %}
 {% set canonical_url = canonical %}
 {% include 'partials/seo_head.html' %}
 {% endblock %}
 {% block content %}
 <div class="max-w-4xl mx-auto">
   <h1 class="text-4xl font-bold text-white mb-8 text-center">Glossary</h1>
+  <p class="text-slate-400 text-center mb-12">Definitions for lossy compression, EXIF, AVIF, HEIC, WEBP, DPI, and related image terms.</p>
   {% if term %}
   <article class="prose-content">
     <h1 class="text-3xl font-bold text-white mb-6">{{ term.title }}</h1>

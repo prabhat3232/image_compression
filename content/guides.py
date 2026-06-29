@@ -1,12 +1,92 @@
 """Editorial guides for FileShrinkr — long-form how-to content."""
 
 GUIDES = {
+    "resize-photos-for-government-exam-forms": {
+        "slug": "resize-photos-for-government-exam-forms",
+        "title": "How to Resize Photos for Government Exam Forms",
+        "description": (
+            "Resize and compress passport-style photos for SSC, UPSC, railway, and state "
+            "recruitment portals. Meet pixel dimensions, JPG format, and 20–100 KB file-size limits."
+        ),
+        "sections": [
+            {
+                "heading": "Why exam portals reject your photo",
+                "paragraphs": [
+                    "Government and public-sector application forms rarely accept the photo straight from your phone. Portals enforce maximum file size in kilobytes, fixed width and height in pixels, JPG format only, and sometimes rules about background color, face visibility, or aspect ratio. A five-megabyte iPhone HEIC or a four-thousand-pixel-wide JPEG will fail before your application is even reviewed.",
+                    "Rejections are frustrating because the error message is often vague—\"invalid image\" or \"file size exceeded\"—without telling you whether the problem is dimensions, format, or bytes. The fix is almost always the same: crop to the required frame, resize to the listed pixel size, export as JPG, and compress until the file falls under the portal's KB cap while the face stays sharp.",
+                    "FileShrinkr is built for this workflow. Use the Image Editor to crop and resize, then compress with a target file size preset (20 KB, 100 KB, or 500 KB) or custom width and height on the compressor. Server mode handles iPhone HEIC uploads and optional EXIF removal; Browser mode can process JPG privately when your connection or privacy preferences matter.",
+                ],
+            },
+            {
+                "heading": "Read the notification before you edit",
+                "paragraphs": [
+                    "Every exam—SSC CGL, UPSC civil services, railway RRB, state PSC, police recruitment, teaching eligibility tests—publishes its own photo specification in the official notification or on the upload screen. Copy those numbers exactly: width × height in pixels, maximum file size in KB, allowed format (almost always JPG or JPEG), and any notes on background (white, light blue) or ears visibility.",
+                    "Do not rely on blog posts or year-old YouTube tutorials. Requirements change between cycles. A size that worked for last year's form may be rejected this year if the commission lowered the KB limit or changed dimensions from 3.5 × 4.5 cm equivalents to a specific pixel box such as 200 × 230 or 240 × 320.",
+                    "Keep the official PDF or screenshot of the upload instructions beside you while editing. FileShrinkr's custom width and height fields let you match pixel requirements precisely after you crop the subject in the editor tab.",
+                ],
+            },
+            {
+                "heading": "Typical requirements you will see",
+                "paragraphs": [
+                    "File size caps of 20 KB, 50 KB, or 100 KB are common on Indian government portals. Twenty kilobytes is tight for a portrait but achievable when you resize first and let FileShrinkr's target KB mode find the highest acceptable quality under that ceiling. If the portal allows 100 KB, you have more room for facial detail—use the 100 KB preset instead of over-compressing.",
+                    "Dimension rules usually describe a passport-style head-and-shoulders frame. Portals may list centimeters (3.5 × 4.5 cm) or pixels (for example 200 × 230, 350 × 450, or 600 × 800). Centimeter labels are print-oriented; online forms validate pixels. When only centimeters are given, use the pixel values shown on the same page—if none are listed, match the pixel box the upload preview displays when you select a file.",
+                    "Format is almost always JPG or JPEG. PNG, WEBP, and HEIC are typically rejected. Signature uploads are separate and often have even smaller KB limits; the same resize-then-compress workflow applies. Enable Remove EXIF in Server mode if you want to strip camera metadata before submission.",
+                ],
+            },
+            {
+                "heading": "Step 1 — Crop and resize in the editor",
+                "paragraphs": [
+                    "Open FileShrinkr and switch to the Image Editor tab. Upload your passport-style photo or take a well-lit picture against a plain light background. Use crop to frame head and shoulders with a little space above the head, matching the aspect ratio implied by the form's width and height.",
+                    "Set explicit width and height in the resize controls if the editor exposes them, or note the target pixels for the compressor step. Straighten slightly tilted photos with rotate. Avoid heavy filters or beauty modes—portals want a natural, recognizable face. If the notification forbids shadows or hats, fix those before export; compression cannot fix policy violations.",
+                    "When you are satisfied, click Compress This Image to send the edited canvas to the compressor without re-uploading. That handoff keeps one consistent crop from edit through final JPG export.",
+                ],
+            },
+            {
+                "heading": "Step 2 — Export JPG and hit the KB limit",
+                "paragraphs": [
+                    "On the compressor tab, choose Server mode if you uploaded HEIC from an iPhone or need EXIF removal. Select JPG as the output format. Enter the exact width and height from the form, or use a resize preset only if it matches the notification—Instagram presets are for social media, not SSC uploads.",
+                    "Turn on the target file size option and pick the KB cap from the form: 20 KB, 100 KB, or 500 KB as available. FileShrinkr searches for the best quality at or below that size. If the portal limit is 50 KB and no preset matches, start with 100 KB and lower quality manually, or use 20 KB and verify visually—sometimes slightly higher quality at 100 KB still passes if the portal rounds generously.",
+                    "Use the before/after preview to confirm the face is not blurry or blocky. If eyes or text on a nameplate look soft, resize to the correct pixels first, then retry with a slightly higher KB allowance if the rules permit. Download the final JPG and check the file properties on your computer: size in KB and image dimensions should match the form.",
+                ],
+            },
+            {
+                "heading": "Step 3 — Verify before you upload",
+                "paragraphs": [
+                    "Open the JPG locally at one hundred percent zoom. Confirm ears, chin, and hair boundaries match the notification. Upload a test file if the portal allows replacing the photo before payment. Some systems lock the image after fee submission.",
+                    "Rename the file if the form requires a specific pattern (for example registration number.jpg). Avoid spaces and special characters in filenames; underscores or hyphens are safer on older government servers.",
+                    "If upload still fails, compare your file's KB and pixel dimensions character by character against the instructions. One pixel over or one kilobyte over often triggers rejection. Re-export with stricter target KB or one pixel less on width and height.",
+                ],
+            },
+            {
+                "heading": "Signatures, SC/ST certificates, and multi-page scans",
+                "paragraphs": [
+                    "Signature images usually need a small pixel box and a very low KB cap—often under 20 KB. Crop tightly around the ink, use JPG, and apply the 20 KB target. White background scans compress better than grey paper photos.",
+                    "When a form asks for identity proofs or caste certificates as separate uploads, each file may have its own limit. Process them one at a time rather than batching unlike sizes. For multiple page scans that must be one document, see our guide on merging images into PDF—but photo and signature slots almost always want standalone JPGs, not PDF.",
+                    "FileShrinkr batch ZIP is useful when several family members need the same treatment for different exams, not when one form wants five different dimension rules in one submission.",
+                ],
+            },
+            {
+                "heading": "Quick checklist for exam applicants",
+                "paragraphs": [
+                    "Confirm official width × height pixels and max KB from the current notification. Crop passport-style in the editor; straighten and use a plain background. Export JPG; use target KB matching the form. Preview face sharpness; strip EXIF in Server mode if desired. Verify file size and dimensions on disk before paying the application fee.",
+                    "Bookmark FileShrinkr on your phone and desktop during application season. Deadlines cluster on the last day; having a reliable resize-and-compress tool avoids panic trips to cyber cafés.",
+                    "For general compression theory and quality trade-offs, read our guides on compressing without losing quality and preparing images for email—the same principles apply, but exam forms are stricter about dimensions than most email clients.",
+                ],
+            },
+        ],
+        "related_slugs": [
+            "compress-without-losing-quality",
+            "prepare-images-for-email",
+            "image-dpi-and-resolution",
+            "merge-images-into-pdf",
+        ],
+    },
     "compress-without-losing-quality": {
         "slug": "compress-without-losing-quality",
         "title": "How to Compress Images Without Losing Quality",
         "description": (
-            "Learn practical techniques to shrink image file sizes while keeping photos sharp. "
-            "Covers format choice, quality settings, resolution, and when lossless compression makes sense."
+            "Learn practical techniques to shrink JPG, PNG, WEBP, and HEIC file sizes while keeping photos sharp. "
+            "Covers AVIF export, target KB sizes (20–500 KB), quality settings, and lossless PNG or PDF options."
         ),
         "sections": [
             {
@@ -14,7 +94,7 @@ GUIDES = {
                 "paragraphs": [
                     "Every image on your phone or camera starts as a large file packed with pixel data. When you upload that photo to a website, attach it to an email, or share it on WhatsApp, the platform or recipient often needs something smaller. Compression reduces file size by removing or reorganizing data. The challenge is that aggressive compression can introduce blur, blocky artifacts, or muddy colors that make a professional photo look amateur.",
                     "The good news is that most everyday images contain far more data than human eyes can appreciate at typical screen sizes. A twelve-megapixel vacation shot might look identical on a laptop at eighty percent quality versus one hundred percent, yet the smaller file loads faster and costs less bandwidth. The trick is knowing which levers to pull—format, dimensions, quality percentage, and metadata—so you shrink the file without visibly damaging the subject.",
-                    "FileShrinkr gives you those levers in one place. You can compress to JPG or WEBP with an adjustable quality slider, export merged PDFs with optional lossless embedding, and resize or crop in the built-in editor before compression. Understanding how each option affects the final image helps you make confident choices instead of guessing.",
+                    "FileShrinkr gives you those levers in one place. Compress to JPG, WEBP, AVIF, or PNG with an adjustable quality slider or target file size (20–500 KB), use Instagram and social resize presets, export merged PDFs with optional lossless embedding, and crop or resize in the built-in editor before compression. Browser mode processes many formats privately on your device; server mode handles HEIC, PDF, and full EXIF removal.",
                 ],
             },
             {
@@ -38,7 +118,7 @@ GUIDES = {
                 "paragraphs": [
                     "Quality settings map to how aggressively a lossy encoder discards detail. At one hundred percent you get minimal compression; at fifty percent you may see banding in skies and softness in hair. Most web photos look excellent between seventy-five and eighty-five percent. Marketing hero images might justify eighty-five to ninety, while thumbnails and background textures can drop to sixty-five without complaint.",
                     "Always judge quality at the size and context where the image will appear. Zooming to pixel level on a five-thousand-pixel original will reveal artifacts that disappear when the image is displayed at eight hundred pixels wide on a phone. Compare the compressed preview against the original at realistic dimensions rather than at full resolution.",
-                    "FileShrinkr processes uploads with FFmpeg and returns downloadable results so you can open the compressed file locally and verify sharpness. If artifacts appear, bump quality up five or ten points and compress again. Batch uploads let you apply the same setting across a folder of event photos, which is faster than tuning each file individually when they share similar lighting and content.",
+                    "FileShrinkr processes images with Pillow (and optional MozJPEG for JPG on the server) or in your browser when private mode is enabled. Download results and compare with the built-in before/after preview. If artifacts appear, bump quality up five or ten points, lower the target KB, or resize first—then compress again.",
                 ],
             },
             {
@@ -59,6 +139,7 @@ GUIDES = {
             },
         ],
         "related_slugs": [
+            "resize-photos-for-government-exam-forms",
             "best-image-format-for-websites",
             "image-dpi-and-resolution",
             "prepare-images-for-email",
@@ -67,10 +148,10 @@ GUIDES = {
     },
     "best-image-format-for-websites": {
         "slug": "best-image-format-for-websites",
-        "title": "Best Image Format for Websites: JPG vs WEBP vs PNG",
+        "title": "Best Image Format for Websites: JPG vs WEBP vs AVIF vs PNG",
         "description": (
-            "Compare JPG, WEBP, PNG, and SVG for web publishing. Learn which format fits photos, "
-            "logos, transparency, and performance goals on modern sites."
+            "Compare JPG, WEBP, AVIF, PNG, and SVG for web publishing. Learn which format fits photos, "
+            "logos, transparency, HEIC sources, and performance goals on modern sites."
         ),
         "sections": [
             {
@@ -78,7 +159,7 @@ GUIDES = {
                 "paragraphs": [
                     "A website image must load quickly, look correct on phones and desktops, and fit the design without breaking layout. Slow images hurt Core Web Vitals, especially Largest Contentful Paint, which Google uses as a ranking signal. Oversized PNG photographs and unoptimized hero banners are among the most common reasons a otherwise fast site feels sluggish.",
                     "Format choice is the foundation of that performance story. Each format uses different compression math, color models, and feature sets. Picking the right one for each asset type—photo versus logo versus illustration—often matters more than tweaking a quality slider on the wrong format.",
-                    "FileShrinkr supports JPG, WEBP, and PDF export from uploaded JPG, PNG, WEBP, and SVG sources, so you can produce web-ready assets without installing desktop software. Understanding when to use each output format helps you compress once and publish confidently.",
+                    "FileShrinkr supports JPG, WEBP, AVIF, PNG, and PDF export from uploaded JPG, PNG, WEBP, HEIC, and SVG sources, so you can produce web-ready assets without installing desktop software. Understanding when to use each output format helps you compress once and publish confidently.",
                 ],
             },
             {
@@ -86,7 +167,7 @@ GUIDES = {
                 "paragraphs": [
                     "JPEG uses lossy compression tuned for continuous-tone images like portraits, product photos, and scenery. Nearly every browser, email client, and CMS accepts it without conversion. That universal compatibility makes JPG the safest default when you do not control the full delivery chain or when you need assets for mixed environments.",
                     "JPEG does not support transparency. Any soft edges or cut-out subjects require a flat background color before export. It also struggles with crisp text and hard edges; screenshots and UI captures saved as JPG often look fuzzy compared to PNG. For photos without transparency, though, JPG at seventy-five to eighty-five percent quality typically beats PNG on size while looking equally good on screen.",
-                    "Use FileShrinkr's JPG output when feeding images into legacy templates, Word documents, slide decks, or third-party marketplaces that mandate JPEG. The compressor scales wide images to a sensible maximum and applies your quality setting through FFmpeg, producing files ready to upload to your host or CDN.",
+                    "Use FileShrinkr's JPG output when feeding images into legacy templates, Word documents, slide decks, or third-party marketplaces that mandate JPEG. Enable MozJPEG in server mode for sharper JPGs at the same file size. The compressor scales wide images, applies social presets, and encodes with your quality or target KB setting.",
                 ],
             },
             {
@@ -102,7 +183,7 @@ GUIDES = {
                 "paragraphs": [
                     "PNG uses lossless compression and supports full alpha transparency. It is the right choice for logos, icons, diagrams, and screenshots where sharp lines matter. Photographs saved as PNG become unnecessarily large; a three-megabyte PNG beach photo might shrink to three hundred kilobytes as WEBP with no visible loss on a laptop screen.",
                     "SVG stores vector paths rather than pixels, making it ideal for icons, simple illustrations, and logos that must scale across breakpoints without multiple raster sizes. SVG files are tiny for simple shapes and stay crisp at any resolution. Complex SVGs with filters or embedded bitmaps can grow heavy, and SVG is not appropriate for photographs.",
-                    "When you upload SVG to FileShrinkr, the tool rasterizes it for JPG, WEBP, or PDF output at appropriate dimensions. Keep original SVGs for inline site markup, and use FileShrinkr when you need a raster thumbnail, a compressed WEBP variant, or a PDF sheet of vector-derived images for print or sharing.",
+                    "When you upload SVG to FileShrinkr, the tool rasterizes it for JPG, WEBP, AVIF, PNG, or PDF output at appropriate dimensions. Keep original SVGs for inline site markup, and use FileShrinkr when you need a raster thumbnail, a compressed WEBP or AVIF variant, or a PDF sheet of vector-derived images for print or sharing.",
                 ],
             },
             {
@@ -133,7 +214,7 @@ GUIDES = {
         "slug": "merge-images-into-pdf",
         "title": "How to Merge Images into One PDF",
         "description": (
-            "Step-by-step guidance for combining JPG, PNG, and WEBP images into a single PDF. "
+            "Step-by-step guidance for combining JPG, PNG, WEBP, and HEIC images into a single PDF. "
             "Covers merge order, compressed versus lossless export, and practical use cases."
         ),
         "sections": [
@@ -198,7 +279,7 @@ GUIDES = {
         "title": "How to Prepare Images for Email Attachments",
         "description": (
             "Shrink photos and scans to fit Gmail, Outlook, and corporate email limits. "
-            "Practical targets for attachment size, dimensions, and format before you hit send."
+            "Target KB presets, dimensions, and format choice before you hit send."
         ),
         "sections": [
             {
@@ -206,7 +287,7 @@ GUIDES = {
                 "paragraphs": [
                     "Gmail allows roughly twenty-five megabytes per message including encoding overhead, which means your attachments should stay comfortably below twenty megabytes to avoid silent failures or bounced sends. Outlook and Microsoft 365 impose similar limits, often twenty to thirty-five megabytes depending on tenant policy. Mobile carriers and corporate gateways may cut far lower—ten megabytes or less—when scanning attachments for security.",
                     "Recipients on phones pay data charges for large downloads and may not open multi-megabyte images at all. Even when a message delivers successfully, huge inline images slow conversation threads and fill mailbox quotas. Preparing images before attaching them is courtesy and reliability engineering in one step.",
-                    "FileShrinkr helps you hit safe targets quickly: compress to JPG or WEBP, merge multiple scans into one PDF, and download a ZIP of batch-processed files. You see results before opening your mail client, which beats discovering a send failure after composing a long message.",
+                    "FileShrinkr helps you hit safe targets quickly: compress to JPG, WEBP, AVIF, or PNG with target KB presets (20–500 KB), merge multiple scans into one PDF, and download a ZIP of batch-processed files. You see results before opening your mail client, which beats discovering a send failure after composing a long message.",
                 ],
             },
             {
@@ -218,7 +299,7 @@ GUIDES = {
                 ],
             },
             {
-                "heading": "Choose JPG, WEBP, or PDF for email",
+                "heading": "Choose JPG, WEBP, AVIF, PNG, or PDF for email",
                 "paragraphs": [
                     "JPG is the safest format for photo attachments because every mail client displays it inline without plugins. WEBP is smaller but some desktop clients still treat it as a generic attachment rather than a previewable image. When you know recipients use modern Gmail or Apple Mail, WEBP can shave another twenty percent off size; otherwise default to JPG for broad compatibility.",
                     "PDF works best for multi-page scans, forms, and mixed aspect ratios that should print on standard paper. One PDF attachment beats five separate images in a professional context. Enable compression on FileShrinkr unless the recipient explicitly requires lossless archival quality.",
@@ -238,7 +319,7 @@ GUIDES = {
                 "paragraphs": [
                     "Photos embed EXIF metadata: GPS location, device identifiers, and capture timestamps. Sharing images by email can unintentionally reveal where and when you took them. Stripping metadata before send reduces privacy risk and removes bytes. Even when location is not sensitive, cleaner files look more professional.",
                     "Corporate policies may prohibit certain attachment types or require encryption for confidential scans. Compression does not replace encryption, but smaller files encrypt and upload faster to secure portals. Know your organization's rules before batching HR or medical images.",
-                    "When metadata removal becomes a dedicated step in your workflow, combine compression with explicit EXIF stripping in your editor or a future FileShrinkr option. Until then, be mindful that compressed JPGs may still carry metadata unless removed upstream.",
+                    "When metadata removal is part of your workflow, enable EXIF stripping in Server mode on FileShrinkr before you compress JPG, WEBP, or AVIF exports. That removes GPS, camera, and timestamp data while shrinking file size for safer public sharing.",
                 ],
             },
             {
@@ -251,6 +332,7 @@ GUIDES = {
             },
         ],
         "related_slugs": [
+            "resize-photos-for-government-exam-forms",
             "merge-images-into-pdf",
             "compress-without-losing-quality",
             "best-image-format-for-websites",
@@ -302,7 +384,7 @@ GUIDES = {
                 "paragraphs": [
                     "Compression algorithms analyze patterns across pixels. Very small images compress quickly but show artifacts sooner because each pixel represents a larger share of the scene. Very large images tolerate lower quality settings because details are abundant, yet file size grows with pixel count even at low quality. The sweet spot is enough pixels for the display context, then tuned lossy compression.",
                     "Upsampling a small image to higher resolution before compression does not add real detail—it invents soft interpolation. Start from the best source available, downsample to target dimensions, then compress. If the source is a screenshot, preserve PNG until final export to JPG or WEBP to avoid double JPEG artifacts.",
-                    "FileShrinkr's pipeline scales wide inputs and applies quality through FFmpeg. Understanding that order helps diagnose results: a soft output might need higher quality, but it might instead need a smaller pixel width so the encoder is not spreading bits across unnecessary area.",
+                    "FileShrinkr scales and encodes with Pillow in server mode or locally in browser-private mode. Resize first with presets or custom dimensions, then set quality or a target KB limit. A soft output might need higher quality—or a smaller width before compression.",
                 ],
             },
             {

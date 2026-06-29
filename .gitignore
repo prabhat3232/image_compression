@@ -5,3 +5,9 @@ __pycache__
 .env
 uploads/
 temp/
+
+# Generated compression outputs (served temporarily for download)
+static/*_compressed.*
+static/no_watermark_*
+static/test_*
+static/compressed_*.zip

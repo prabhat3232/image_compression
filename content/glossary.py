@@ -97,7 +97,7 @@ GLOSSARY = {
         "definition": [
             "SVG (Scalable Vector Graphics) stores shapes, paths, and text as mathematical descriptions rather than a fixed pixel grid. Browsers render SVG crisply at any zoom level, which makes SVG ideal for logos, icons, and simple illustrations. Rasterization is the process of converting that vector description into a bitmap—a grid of pixels at specific width and height.",
             "Once rasterized, the image behaves like any JPEG or PNG: scaling up can look soft because no additional vector detail exists. Rasterization resolution matters: exporting an icon at sixty-four pixels suits favicons; exporting at five hundred twelve pixels suits high-DPI displays. Complex SVGs with filters, embedded bitmaps, or huge path counts may rasterize slowly or produce large files.",
-            "When you upload SVG to FileShrinkr, the tool rasterizes it for JPG, WEBP, or PDF output at appropriate dimensions. Keep original SVGs for inline website markup where scalability matters. Use FileShrinkr when you need a compressed raster thumbnail, a WEBP variant for CMS upload, or a PDF sheet that embeds vector-derived bitmaps for recipients who cannot use SVG.",
+            "When you upload SVG to FileShrinkr, the tool rasterizes it for JPG, WEBP, AVIF, PNG, or PDF output at appropriate dimensions. Keep original SVGs for inline website markup where scalability matters. Use FileShrinkr when you need a compressed raster thumbnail, a WEBP or AVIF variant for CMS upload, or a PDF sheet that embeds vector-derived bitmaps for recipients who cannot use SVG.",
         ],
         "related_terms": [
             "lossless-compression",

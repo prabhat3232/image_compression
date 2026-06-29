@@ -6,11 +6,23 @@ from datetime import datetime
 import shutil
 import io
 
-from flask import Flask, render_template, request, jsonify, send_file, make_response, send_from_directory, abort, Response
+from flask import Flask, render_template, request, jsonify, send_file, make_response, send_from_directory, abort, Response, redirect
 from werkzeug.utils import secure_filename
 from PIL import Image
-import ffmpeg
 import img2pdf
+
+from image_processing import (
+    AVIF_SUPPORTED,
+    HEIC_SUPPORTED,
+    MOZJPEG_SUPPORTED,
+    RESIZE_PRESETS,
+    is_heic_image,
+    prepare_lossless_pdf_input,
+    process_raster,
+    raster_to_jpeg_temp,
+)
+
+ALLOWED_TARGET_KB = {20, 100, 500}
 
 try:
     from dotenv import load_dotenv
@@ -18,22 +30,17 @@ try:
 except ImportError:
     pass
 
-from content.config import SITE_URL, CONTACT_EMAIL, all_sitemap_paths
-from content.pages import TRUST_PAGES, PHASE3_PAGES, canonical, build_schema_graph
-from content.landing_pages import LANDING_PAGES, get_landing, all_landing_slugs
+from content.config import SITE_URL, CONTACT_EMAIL, all_sitemap_paths, REMOVED_PAGE_REDIRECTS
+from content.seo import HOME_DESCRIPTION, HOME_HERO_SUBTITLE, HOME_KEYWORDS, HOME_TITLE, OG_IMAGE_ALT
+from content.pages import TRUST_PAGES, canonical
 from content.guides import GUIDES, get_guide, all_guide_slugs
 from content.glossary import GLOSSARY, get_glossary_term, all_glossary_slugs
-from content.home_faq import HOME_FAQS, POPULAR_TOOLS
+from content.home_faq import HOME_FAQS
 from content.mail import contact_delivery_configured, send_contact_email
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "change-me-in-production")
-
-RESIZE_PRESETS = {
-    "instagram_square": (1080, 1080),
-    "facebook": (1200, 630),
-    "youtube": (1280, 720),
-}
+app.config["TEMPLATES_AUTO_RELOAD"] = os.environ.get("FLASK_ENV") != "production"
 
 CONTACT_RATE_LIMIT = defaultdict(list)
 CONTACT_RATE_MAX = 3
@@ -52,14 +59,20 @@ STATIC_FOLDER = "static"
 if not os.path.exists(STATIC_FOLDER):
     os.makedirs(STATIC_FOLDER)
 
+_DOWNLOAD_MIMETYPES = {
+    ".zip": "application/zip",
+    ".pdf": "application/pdf",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".avif": "image/avif",
+    ".png": "image/png",
+}
 
-def _resolve_related(slugs):
-    related = []
-    for slug in slugs:
-        page = LANDING_PAGES.get(slug) or PHASE3_PAGES.get(slug) or TRUST_PAGES.get(slug)
-        if page:
-            related.append({"slug": slug, "title": page.get("h1") or page.get("title", slug)})
-    return related
+
+def _download_mimetype(filename):
+    ext = os.path.splitext(filename)[1].lower()
+    return _DOWNLOAD_MIMETYPES.get(ext, "application/octet-stream")
 
 
 def _contact_rate_ok(ip):
@@ -72,53 +85,16 @@ def _contact_rate_ok(ip):
     return True
 
 
-def _resize_cover(img, target_w, target_h):
-    img_ratio = img.width / img.height
-    target_ratio = target_w / target_h
-    if img_ratio > target_ratio:
-        new_h = target_h
-        new_w = int(target_h * img_ratio)
-    else:
-        new_w = target_w
-        new_h = int(target_w / img_ratio)
-    img = img.resize((new_w, new_h), Image.LANCZOS)
-    left = (new_w - target_w) // 2
-    top = (new_h - target_h) // 2
-    return img.crop((left, top, left + target_w, top + target_h))
-
-
-def _finalize_raster(path, output_format, quality, strip_exif=False, resize_preset=None):
-    image = Image.open(path)
-    if resize_preset and resize_preset in RESIZE_PRESETS:
-        tw, th = RESIZE_PRESETS[resize_preset]
-        image = _resize_cover(image.convert("RGB"), tw, th)
-    elif output_format in ("jpg", "pdf"):
-        image = image.convert("RGB")
-
-    root, _ = os.path.splitext(path)
-    out_path = path if output_format == "jpg" else f"{root}.{output_format}"
-
-    save_kwargs = {}
-    if strip_exif:
-        save_kwargs["exif"] = b""
-
-    if output_format == "webp":
-        image.save(out_path, "WEBP", quality=quality, method=6)
-    elif output_format == "jpg":
-        image.save(out_path, "JPEG", quality=quality, optimize=True, **save_kwargs)
-    else:
-        image.save(out_path, quality=quality, **save_kwargs)
-
-    if out_path != path and os.path.exists(path):
-        os.remove(path)
-    return out_path
-
-
 def _json_with_sizes(payload, original_size, compressed_size):
     if original_size and compressed_size:
         payload["original_size"] = original_size
         payload["compressed_size"] = compressed_size
     return jsonify(payload)
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(STATIC_FOLDER, "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 
 @app.route("/")
@@ -127,8 +103,16 @@ def index():
     return render_template(
         "index.html",
         home_faqs=HOME_FAQS,
-        popular_tools=POPULAR_TOOLS,
         latest_guides=latest,
+        heic_supported=HEIC_SUPPORTED,
+        avif_supported=AVIF_SUPPORTED,
+        mozjpeg_supported=MOZJPEG_SUPPORTED,
+        resize_presets=RESIZE_PRESETS,
+        seo_title=HOME_TITLE,
+        seo_description=HOME_DESCRIPTION,
+        seo_keywords=HOME_KEYWORDS,
+        seo_hero_subtitle=HOME_HERO_SUBTITLE,
+        seo_og_image_alt=OG_IMAGE_ALT,
     )
 
 @app.route("/compress", methods=["POST"])
@@ -147,18 +131,41 @@ def compress_image():
         return "Quality must be between 1 and 100", 400
 
     output_format = request.form.get("format")
-    if output_format not in ["jpg", "webp", "pdf"]:
+    if output_format not in ["jpg", "webp", "avif", "png", "pdf"]:
         return "Invalid format selected", 400
+
+    if output_format == "avif" and not AVIF_SUPPORTED:
+        return jsonify({"error": "AVIF encoding is not available on the server"}), 400
 
     merge_pdf = request.form.get("merge_pdf") == "on"
     compress_pdf_images = request.form.get("compress_pdf_images", "on") == "on"
     strip_exif = request.form.get("strip_exif") == "on"
+    png_lossless = request.form.get("png_lossless", "on") == "on"
+    use_mozjpeg = request.form.get("mozjpeg") == "on" and MOZJPEG_SUPPORTED
+    if request.form.get("mozjpeg") == "on" and output_format != "jpg":
+        return jsonify({"error": "MozJPEG is only available for JPG output"}), 400
+
     resize_preset = request.form.get("resize_preset")
     if resize_preset not in RESIZE_PRESETS:
         resize_preset = None
-    
-    print(f"DEBUG: compress_pdf_images checkbox value: {request.form.get('compress_pdf_images')}")
-    print(f"DEBUG: compress_pdf_images boolean: {compress_pdf_images}")
+
+    custom_width = request.form.get("width", type=int)
+    custom_height = request.form.get("height", type=int)
+    if (custom_width and not custom_height) or (custom_height and not custom_width):
+        return jsonify({"error": "Both width and height are required for custom resize"}), 400
+    if custom_width and custom_width < 1:
+        custom_width = None
+    if custom_height and custom_height < 1:
+        custom_height = None
+    if resize_preset:
+        custom_width = None
+        custom_height = None
+
+    target_kb = request.form.get("target_kb", type=int)
+    if target_kb is not None and target_kb not in ALLOWED_TARGET_KB:
+        target_kb = None
+    if target_kb and output_format in ("png", "pdf"):
+        return jsonify({"error": "Target file size is not available for PNG or PDF"}), 400
 
     # Setup directories
     batch_id = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -174,6 +181,7 @@ def compress_image():
     pdf_merge_original_inputs = []  # List of original files for lossless PDF merging
     errors = []
     original_size = 0
+    all_within_target = True
 
     try:
         for file in files:
@@ -181,6 +189,10 @@ def compress_image():
                 continue
 
             filename = secure_filename(file.filename)
+            if not os.path.splitext(filename)[1]:
+                orig_ext = os.path.splitext(file.filename or "")[1].lower()
+                if orig_ext in (".heic", ".heif"):
+                    filename = (filename or "image") + orig_ext
             input_path = os.path.join(batch_dir, filename)
             file.save(input_path)
             original_size += os.path.getsize(input_path)
@@ -208,105 +220,79 @@ def compress_image():
                     compressed_path = os.path.join(batch_dir, out_filename)
                     final_path = compressed_path
 
-            # 1. Compress using ffmpeg
+            if is_heic_image(input_path) and not HEIC_SUPPORTED:
+                errors.append(f"HEIC support is not available on the server ({filename})")
+                continue
+
             try:
-                # For PDF without compression, skip ffmpeg entirely and use original
                 if output_format == "pdf" and not compress_pdf_images:
-                    # Use original file directly - no copying, no conversion
-                    compressed_path = input_path
-                    print(f"DEBUG: Skipping ffmpeg, using original file: {input_path}")
-                else:
-                    # Compress with ffmpeg
-                    (
-                        ffmpeg
-                        .input(input_path)
-                        .filter('scale', 1280, -1)
-                        .output(compressed_path, **{'qscale:v': quality})
-                        .run(overwrite_output=True, capture_stdout=True, capture_stderr=True)
+                    lossless_input = prepare_lossless_pdf_input(input_path, batch_dir, file_root)
+                    if merge_pdf:
+                        pdf_merge_original_inputs.append(lossless_input)
+                    else:
+                        with open(final_path, "wb") as pdf_file:
+                            with open(lossless_input, "rb") as img_file:
+                                pdf_file.write(
+                                    img2pdf.convert(
+                                        img_file.read(),
+                                        layout_fun=img2pdf.get_layout_fun(None),
+                                    )
+                                )
+                        processed_files.append(final_path)
+                elif output_format == "pdf":
+                    pdf_result = raster_to_jpeg_temp(
+                        input_path,
+                        compressed_path,
+                        quality,
+                        strip_exif=strip_exif,
+                        resize_preset=resize_preset,
+                        width=custom_width,
+                        height=custom_height,
+                        target_kb=target_kb,
+                        use_mozjpeg=use_mozjpeg,
                     )
-            except ffmpeg.Error as e:
-                error_msg = f"Error compressing {filename}: {e.stderr.decode('utf8') if e.stderr else str(e)}"
+                    if not pdf_result.get("within_target", True):
+                        all_within_target = False
+                    if merge_pdf:
+                        pdf_merge_inputs.append(compressed_path)
+                    else:
+                        image = Image.open(compressed_path)
+                        image.convert("RGB").save(final_path, "PDF", resolution=100.0)
+                        if os.path.exists(compressed_path) and compressed_path != final_path:
+                            os.remove(compressed_path)
+                        processed_files.append(final_path)
+                else:
+                    result = process_raster(
+                        input_path,
+                        final_path,
+                        output_format,
+                        quality,
+                        strip_exif=strip_exif,
+                        resize_preset=resize_preset,
+                        width=custom_width,
+                        height=custom_height,
+                        target_kb=target_kb,
+                        png_lossless=png_lossless,
+                        use_mozjpeg=use_mozjpeg,
+                    )
+                    if not result.get("within_target", True):
+                        all_within_target = False
+                    processed_files.append(final_path)
+            except Exception as e:
+                error_msg = f"Error processing {filename}: {str(e)}"
                 print(error_msg)
                 errors.append(error_msg)
                 continue
 
-            # Post-process: resize preset, EXIF strip, WEBP conversion
-            raster_format = "jpg" if output_format == "pdf" else output_format
-            needs_pillow = (
-                raster_format == "webp"
-                or strip_exif
-                or resize_preset
-            )
-            if needs_pillow and not (output_format == "pdf" and not compress_pdf_images):
-                try:
-                    compressed_path = _finalize_raster(
-                        compressed_path,
-                        raster_format,
-                        quality,
-                        strip_exif=strip_exif,
-                        resize_preset=resize_preset,
-                    )
-                except Exception as e:
-                    error_msg = f"Error post-processing {filename}: {str(e)}"
-                    print(error_msg)
-                    errors.append(error_msg)
-                    continue
 
-            # 2. Convert to Individual PDF if needed
-            if output_format == "pdf" and not merge_pdf:
-                try:
-                    if compress_pdf_images:
-                        print(f"DEBUG: Using Pillow for PDF conversion (compressed)")
-                        # Standard quality with Pillow
-                        image = Image.open(compressed_path)
-                        rgb_image = image.convert("RGB")
-                        rgb_image.save(final_path, "PDF", resolution=100.0)
-                        # Cleanup intermediate JPG
-                        if os.path.exists(compressed_path):
-                            os.remove(compressed_path)
-                    else:
-                        print(f"DEBUG: Using img2pdf for PDF conversion (lossless) - input_path: {input_path}")
-                        # Lossless conversion with img2pdf
-                        # img2pdf embeds images without re-encoding
-                        try:
-                            with open(input_path, "rb") as img_file:
-                                # Use img2pdf with layout that preserves original dimensions
-                                pdf_bytes = img2pdf.convert(
-                                    img_file.read(),
-                                    layout_fun=img2pdf.get_layout_fun(None)  # Preserve original size
-                                )
-                            with open(final_path, "wb") as pdf_file:
-                                pdf_file.write(pdf_bytes)
-                            print(f"DEBUG: Lossless PDF created at: {final_path}")
-                        except Exception as img2pdf_error:
-                            print(f"DEBUG: img2pdf failed, falling back to Pillow: {img2pdf_error}")
-                            # Fallback to Pillow if img2pdf fails
-                            image = Image.open(input_path)
-                            rgb_image = image.convert("RGB")
-                            rgb_image.save(final_path, "PDF", resolution=300.0, quality=100)
-                            print(f"DEBUG: Fallback PDF created at: {final_path}")
-                except Exception as e:
-                    error_msg = f"Error converting {filename} to PDF: {str(e)}"
-                    print(error_msg)
-                    errors.append(error_msg)
-                    continue
-
-            # 3. Add to lists
-            if output_format == "pdf" and merge_pdf:
-                pdf_merge_inputs.append(compressed_path)
-                pdf_merge_original_inputs.append(input_path)  # Track original for lossless
-            else:
-                processed_files.append(final_path)
-
-
-        if not processed_files and not pdf_merge_inputs:
+        if not processed_files and not pdf_merge_inputs and not pdf_merge_original_inputs:
              return f"No files processed. Errors: {'; '.join(errors)}", 500
 
         # --- FINAL OUTPUT GENERATION ---
 
         # Case A: Merge to Request PDF
         if output_format == "pdf" and merge_pdf:
-            if not pdf_merge_inputs:
+            if not pdf_merge_inputs and not pdf_merge_original_inputs:
                 return jsonify({"error": "No valid images to merge."}), 500
             
             merged_pdf_name = f"merged_{batch_id}.pdf"
@@ -324,11 +310,13 @@ def compress_image():
                 
                 time.sleep(2.0) # Flush
                 compressed_size = os.path.getsize(merged_pdf_path)
-                return _json_with_sizes({
+                payload = {
                     "status": "success",
                     "download_url": f"/static/{merged_pdf_name}",
-                    "filename": merged_pdf_name
-                }, original_size, compressed_size)
+                    "filename": merged_pdf_name,
+                    "within_target": all_within_target,
+                }
+                return _json_with_sizes(payload, original_size, compressed_size)
             except Exception as e:
                 return jsonify({"error": f"Merge error: {str(e)}"}), 500
 
@@ -345,7 +333,8 @@ def compress_image():
             return _json_with_sizes({
                 "status": "success",
                 "download_url": f"/static/{filename}",
-                "filename": filename
+                "filename": filename,
+                "within_target": all_within_target,
             }, original_size, compressed_size)
 
         # Case C: Multiple Files -> ZIP
@@ -371,7 +360,8 @@ def compress_image():
             return _json_with_sizes({
                 "status": "success",
                 "download_url": f"/static/{zip_name}",
-                "filename": zip_name
+                "filename": zip_name,
+                "within_target": all_within_target,
             }, original_size, compressed_size)
             
         except Exception as e:
@@ -405,7 +395,7 @@ def download_file_route(filename):
             filename, 
             as_attachment=True,
             download_name=filename,
-            mimetype="application/zip" if filename.endswith(".zip") else "application/pdf"
+            mimetype=_download_mimetype(filename),
         )
         
         # Ensure no caching
@@ -460,18 +450,20 @@ def sitemap_xml():
 
 @app.route('/llms.txt')
 def llms_txt():
-    body = [
-        "# FileShrinkr",
-        f"# {SITE_URL}",
-        "",
-        "FileShrinkr is a free online image compressor and editor by DSnM Solutions.",
-        "Supports JPG, PNG, WEBP, SVG upload; JPG, WEBP, PDF output; batch ZIP; PDF merge.",
-        "",
-        "## Pages",
-    ]
-    for path in all_sitemap_paths():
-        body.append(f"- {SITE_URL}{path if path != '/' else '/'}")
-    response = Response("\n".join(body) + "\n", mimetype="text/plain; charset=utf-8")
+    llms_path = os.path.join(os.path.dirname(__file__), "llms.txt")
+    if os.path.isfile(llms_path):
+        with open(llms_path, encoding="utf-8") as f:
+            body = f.read()
+    else:
+        body = "\n".join([
+            "# FileShrinkr",
+            f"# {SITE_URL}",
+            "",
+            "FileShrinkr is a free online image compressor and editor by DSnM Solutions.",
+            "Hybrid browser + server processing: HEIC, AVIF, PNG, JPG, WEBP, PDF; target KB sizes;",
+            "browser-private mode; Instagram/Facebook/YouTube resize; batch ZIP; PDF merge; editor.",
+        ])
+    response = Response(body if body.endswith("\n") else body + "\n", mimetype="text/plain; charset=utf-8")
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return response
 
@@ -534,28 +526,6 @@ def contact():
     return _render_trust("contact", flash_message=flash_message, flash_ok=flash_ok)
 
 
-def _render_landing(slug):
-    page = get_landing(slug) or PHASE3_PAGES.get(slug)
-    if not page:
-        abort(404)
-    page_url = canonical(f"/{slug}")
-    howto = None
-    if page.get("howto_steps"):
-        howto = {
-            "name": page["h1"],
-            "description": page["description"],
-            "steps": page["howto_steps"],
-        }
-    schema_json = build_schema_graph(page_url, faqs=page.get("faqs"), howto=howto)
-    return render_template(
-        "pages/landing.html",
-        page=page,
-        canonical=page_url,
-        schema_json=schema_json,
-        related=_resolve_related(page.get("related_slugs", [])),
-    )
-
-
 @app.route("/guides")
 def guides_index():
     guides = [GUIDES[s] for s in all_guide_slugs()]
@@ -567,7 +537,7 @@ def guide_detail(slug):
     guide = get_guide(slug)
     if not guide:
         abort(404)
-    related = [GUIDES[s] for s in guide.get("related_guides", []) if s in GUIDES]
+    related = [GUIDES[s] for s in guide.get("related_slugs", guide.get("related_guides", [])) if s in GUIDES]
     return render_template(
         "blog/post.html",
         guide=guide,
@@ -597,15 +567,13 @@ def glossary_detail(slug):
     )
 
 
-def _make_landing_view(slug):
-    def view():
-        return _render_landing(slug)
-    view.__name__ = f"landing_{slug}"
-    return view
-
-
-for _slug in all_landing_slugs() + list(PHASE3_PAGES.keys()):
-    app.add_url_rule(f"/{_slug}", endpoint=f"landing_{_slug}", view_func=_make_landing_view(_slug))
+for _slug, _target in REMOVED_PAGE_REDIRECTS.items():
+    def _make_redirect_view(target=_target, slug=_slug):
+        def view():
+            return redirect(target, code=301)
+        view.__name__ = f"redirect_{slug}"
+        return view
+    app.add_url_rule(f"/{_slug}", endpoint=f"redirect_{_slug}", view_func=_make_redirect_view())
 
 
 if __name__ == "__main__":

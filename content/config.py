@@ -17,20 +17,25 @@ CONTACT_WEBHOOK_URL = os.environ.get("CONTACT_WEBHOOK_URL", "").strip()
 
 TRUST_SLUGS = ["about", "privacy", "terms", "contact"]
 
-LANDING_SLUGS = [
-    "compress-jpg",
-    "compress-png",
-    "compress-webp",
-    "images-to-pdf",
-    "compress-for-email",
-    "compress-for-whatsapp",
-    "compress-for-website",
-    "resize-image",
-    "jpg-vs-webp",
-    "how-to-reduce-image-size",
-]
+# Former tool/landing URLs → homepage with presets (301 redirects)
+REMOVED_PAGE_REDIRECTS = {
+    "tools": "/",
+    "compress-jpg": "/?format=jpg&quality=75",
+    "compress-png": "/?format=jpg&quality=80",
+    "compress-webp": "/?format=webp&quality=80",
+    "images-to-pdf": "/?format=pdf",
+    "compress-for-email": "/?format=jpg&quality=70",
+    "compress-for-whatsapp": "/?format=jpg&quality=65",
+    "compress-for-website": "/?format=webp&quality=80",
+    "resize-image": "/?tab=editor",
+    "jpg-vs-webp": "/",
+    "how-to-reduce-image-size": "/",
+    "resize-for-instagram": "/?format=jpg&quality=80&strip_exif=1&resize_preset=instagram_square",
+    "remove-image-metadata": "/?format=jpg&quality=85&strip_exif=1",
+}
 
 GUIDE_SLUGS = [
+    "resize-photos-for-government-exam-forms",
     "compress-without-losing-quality",
     "best-image-format-for-websites",
     "merge-images-into-pdf",
@@ -49,17 +54,10 @@ GLOSSARY_SLUGS = [
     "color-space",
 ]
 
-PHASE3_SLUGS = [
-    "resize-for-instagram",
-    "remove-image-metadata",
-]
-
 
 def all_sitemap_paths():
     paths = ["/"]
     paths += [f"/{s}" for s in TRUST_SLUGS]
-    paths += [f"/{s}" for s in LANDING_SLUGS]
     paths += ["/guides"] + [f"/guides/{s}" for s in GUIDE_SLUGS]
     paths += ["/glossary"] + [f"/glossary/{s}" for s in GLOSSARY_SLUGS]
-    paths += [f"/{s}" for s in PHASE3_SLUGS]
     return paths

@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% include 'partials/favicon.html' %}
   <meta name="google-adsense-account" content="ca-pub-3455511056651876">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3455511056651876"
     crossorigin="anonymous"></script>
@@ -18,9 +19,9 @@
   </script>
 
   <!-- Primary Meta Tags -->
-  <title>FileShrinkr — Free Online Image Compressor &amp; Editor</title>
-  <meta name="description"
-    content="Compress JPG, PNG, WEBP, and SVG images online. Adjust quality, export to PDF, merge images, and edit with crop, resize, and rotate — free at FileShrinkr.">
+  <title>{{ seo_title }}</title>
+  <meta name="description" content="{{ seo_description }}">
+  <meta name="keywords" content="{{ seo_keywords }}">
   <meta name="author" content="DSnM Solutions">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="theme-color" content="#0f172a">
@@ -32,18 +33,16 @@
   <meta property="og:site_name" content="FileShrinkr">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://fileshrinkr.com/">
-  <meta property="og:title" content="FileShrinkr — Free Online Image Compressor &amp; Editor">
-  <meta property="og:description"
-    content="Compress JPG, PNG, WEBP, and SVG images online. Adjust quality, export to PDF, merge images, and edit with crop, resize, and rotate — free at FileShrinkr.">
+  <meta property="og:title" content="{{ seo_title }}">
+  <meta property="og:description" content="{{ seo_description }}">
   <meta property="og:image" content="https://fileshrinkr.com/static/og-image.jpg">
-  <meta property="og:image:alt" content="FileShrinkr — compress and edit images online for free">
+  <meta property="og:image:alt" content="{{ seo_og_image_alt }}">
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://fileshrinkr.com/">
-  <meta name="twitter:title" content="FileShrinkr — Free Online Image Compressor &amp; Editor">
-  <meta name="twitter:description"
-    content="Compress JPG, PNG, WEBP, and SVG images online. Adjust quality, export to PDF, merge images, and edit with crop, resize, and rotate — free at FileShrinkr.">
+  <meta name="twitter:title" content="{{ seo_title }}">
+  <meta name="twitter:description" content="{{ seo_description }}">
   <meta name="twitter:image" content="https://fileshrinkr.com/static/og-image.jpg">
 
   <!-- Structured Data (search engines + AI assistants) -->
@@ -56,7 +55,7 @@
         "@id": "https://fileshrinkr.com/#website",
         "url": "https://fileshrinkr.com/",
         "name": "FileShrinkr",
-        "description": "Free online image compression and editing tools.",
+        "description": {{ seo_description | tojson }},
         "publisher": { "@id": "https://fileshrinkr.com/#organization" },
         "inLanguage": "en-US"
       },
@@ -75,10 +74,18 @@
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Web Browser",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
-        "description": "Compress images to JPG, WEBP, or PDF with adjustable quality. Client-side image editor for crop, resize, rotate, and flip. Batch compression with ZIP download and optional PDF merge.",
+        "description": {{ seo_description | tojson }},
         "featureList": [
           "Image compression with quality control",
-          "Export to JPG, WEBP, or PDF",
+          "Target file size presets (20KB, 100KB, 500KB) for form uploads",
+          "Resize and crop photos for government exam and job application forms",
+          "Export to JPG, WEBP, AVIF, PNG, or PDF",
+          "Social resize presets and custom dimensions",
+          "Before and after compression preview",
+          "Browser-private compression mode",
+          "HEIC and iPhone photo upload",
+          "Lossless PNG export with transparency",
+          "MozJPEG JPG optimization on server",
           "Merge multiple images into one PDF",
           "Lossless PDF option with img2pdf",
           "Client-side crop, resize, rotate, and flip",
@@ -96,19 +103,19 @@
         "@type": "HowTo",
         "@id": "https://fileshrinkr.com/#howto-compress",
         "name": "How to compress images online with FileShrinkr",
-        "description": "Reduce image file size and download compressed JPG, WEBP, or PDF files.",
+        "description": "Compress images to JPG, WEBP, AVIF, PNG, or PDF with quality control, target file size, and social resize presets.",
         "step": [
           {
             "@type": "HowToStep",
             "position": 1,
             "name": "Upload images",
-            "text": "Click or drag and drop JPG, PNG, WEBP, or SVG files into the upload area."
+            "text": "Upload JPG, PNG, WEBP, HEIC, or SVG files. Choose Browser mode for private local compression or Server mode for PDF, HEIC, and EXIF removal."
           },
           {
             "@type": "HowToStep",
             "position": 2,
             "name": "Choose settings",
-            "text": "Set compression quality from 1 to 100 and select output format: JPG, WEBP, or PDF."
+            "text": "Set quality, target file size, resize preset or custom dimensions, and output format: JPG, WEBP, AVIF, PNG, or PDF."
           },
           {
             "@type": "HowToStep",
@@ -183,7 +190,43 @@
     }
   </script>
   <style>
-    .sr-only {
+    .preview-slider-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.75rem;
+      max-height: 320px;
+      background: #1e293b;
+    }
+    .preview-slider-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 320px;
+      object-fit: contain;
+    }
+    .preview-slider-after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      border-right: 2px solid #0ea5e9;
+    }
+    .preview-slider-after img {
+      width: 200%;
+      max-width: none;
+    }
+    .preview-slider-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: ew-resize;
+      z-index: 10;
+    }
       position: absolute;
       width: 1px;
       height: 1px;
@@ -262,8 +305,7 @@
         Free Online <span class="gradient-text">Image Compressor</span> &amp; Editor
       </h1>
       <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
-        Compress JPG, PNG, WEBP, and SVG files. Export to PDF, merge batches, and edit images in your browser — no
-        signup required.
+        {{ seo_hero_subtitle }}
       </p>
     </header>
 
@@ -305,9 +347,31 @@
 
           <form action="/compress" method="post" enctype="multipart/form-data" id="compress-form">
 
+            <div class="mb-8 space-y-3">
+              <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Processing mode</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="processing_mode" value="client" checked class="peer hidden" onchange="updateProcessingModeUI()">
+                  <div class="text-center py-3 px-4 rounded-xl border border-slate-600 bg-dark-800/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                    <span class="font-semibold block">Browser (private)</span>
+                    <span class="text-xs opacity-80">Files stay on your device</span>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="processing_mode" value="server" class="peer hidden" onchange="updateProcessingModeUI()">
+                  <div class="text-center py-3 px-4 rounded-xl border border-slate-600 bg-dark-800/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                    <span class="font-semibold block">Server</span>
+                    <span class="text-xs opacity-80">PDF, HEIC, EXIF strip</span>
+                  </div>
+                </label>
+              </div>
+              <p id="mode-hint" class="text-xs text-slate-500">Browser mode keeps JPG/WEBP/AVIF compression local. PDF and some HEIC files use the server automatically.</p>
+              <p id="capability-badge" class="text-xs text-primary-400/90"></p>
+            </div>
+
             <!-- Drag & Drop Zone -->
             <div id="drop-zone" class="relative group/zone cursor-pointer">
-              <input type="file" id="file" name="file" class="hidden" accept="image/*" multiple required
+              <input type="file" id="file" name="file" class="hidden" accept="image/*,.heic,.heif" multiple required
                 onchange="handleFiles(this.files)">
 
               <div
@@ -325,7 +389,7 @@
                   </div>
                   <div>
                     <p class="text-lg font-medium text-white mb-1">Click to upload or drag and drop</p>
-                    <p class="text-sm text-slate-400">SVG, PNG, JPG or WEBP</p>
+                    <p class="text-sm text-slate-400">JPG, PNG, WEBP, HEIC, SVG</p>
                   </div>
                 </div>
               </div>
@@ -336,11 +400,60 @@
               <!-- JS will populate this -->
             </div>
 
+            <!-- Resize & target size -->
+            <div class="mt-8 space-y-6">
+              <div class="space-y-3">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Resize (cover crop)</label>
+                <div class="flex flex-wrap gap-2" id="preset-chips">
+                  <button type="button" data-preset="" class="preset-chip px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm hover:border-primary-500 transition-colors bg-primary-600 border-primary-500 text-white">None</button>
+                  <button type="button" data-preset="instagram_square" class="preset-chip px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm hover:border-primary-500 transition-colors">Instagram 1080²</button>
+                  <button type="button" data-preset="facebook" class="preset-chip px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm hover:border-primary-500 transition-colors">Facebook 1200×630</button>
+                  <button type="button" data-preset="youtube" class="preset-chip px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm hover:border-primary-500 transition-colors">YouTube 1280×720</button>
+                </div>
+                <div class="grid grid-cols-2 gap-3 max-w-md">
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Custom width (px)</label>
+                    <input type="number" id="compress-custom-width" min="1" placeholder="e.g. 800"
+                      class="w-full px-3 py-2 bg-dark-700 border border-slate-600 rounded-lg text-white text-sm focus:border-primary-500 focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="block text-xs text-slate-400 mb-1">Custom height (px)</label>
+                    <input type="number" id="compress-custom-height" min="1" placeholder="e.g. 600"
+                      class="w-full px-3 py-2 bg-dark-700 border border-slate-600 rounded-lg text-white text-sm focus:border-primary-500 focus:outline-none">
+                  </div>
+                </div>
+                <p class="text-xs text-slate-500">Custom dimensions use center cover crop, same as social presets.</p>
+              </div>
+
+              <div class="space-y-3" id="target-kb-section">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Target file size</label>
+                <div class="flex flex-wrap gap-2">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="target_kb" value="" checked class="peer hidden">
+                    <span class="block px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white">Off</span>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="target_kb" value="20" class="peer hidden">
+                    <span class="block px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white">20 KB</span>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="target_kb" value="100" class="peer hidden">
+                    <span class="block px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white">100 KB</span>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="target_kb" value="500" class="peer hidden">
+                    <span class="block px-4 py-2 rounded-lg border border-slate-600 text-slate-300 text-sm peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white">500 KB</span>
+                  </label>
+                </div>
+                <p class="text-xs text-slate-500">Best for government forms and upload limits. We pick the highest quality under your target.</p>
+              </div>
+            </div>
+
             <!-- Settings -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
 
               <!-- Quality -->
-              <div class="space-y-4">
+              <div class="space-y-4" id="quality-section">
                 <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Compression
                   Quality</label>
                 <div class="relative pt-1">
@@ -358,7 +471,7 @@
               <!-- Format -->
               <div class="space-y-4">
                 <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Output Format</label>
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                   <label class="cursor-pointer">
                     <input type="radio" name="format" value="jpg" checked class="peer hidden"
                       onchange="togglePdfOptions()">
@@ -374,12 +487,38 @@
                       WEBP
                     </div>
                   </label>
-                  <label class="cursor-pointer">
+                  <label class="cursor-pointer" id="format-avif-label">
+                    <input type="radio" name="format" value="avif" id="format-avif" class="peer hidden" onchange="togglePdfOptions()">
+                    <div
+                      class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                      AVIF
+                    </div>
+                  </label>
+                  <label class="cursor-pointer" id="format-png-label">
+                    <input type="radio" name="format" value="png" id="format-png" class="peer hidden" onchange="togglePdfOptions()">
+                    <div
+                      class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
+                      PNG
+                    </div>
+                  </label>
+                  <label class="cursor-pointer" id="format-pdf-label">
                     <input type="radio" name="format" value="pdf" class="peer hidden" onchange="togglePdfOptions()">
                     <div
                       class="text-center py-3 rounded-xl border border-slate-600 bg-dark-800/50 hover:bg-dark-700/50 peer-checked:bg-primary-600 peer-checked:border-primary-500 peer-checked:text-white text-slate-400 transition-all">
                       PDF
                     </div>
+                  </label>
+                </div>
+
+                <div id="png-options" class="hidden animate-fade-in pt-2">
+                  <label class="flex items-center space-x-3 cursor-pointer group">
+                    <div class="relative">
+                      <input type="checkbox" name="png_lossless" id="png-lossless-check" checked class="peer sr-only">
+                      <div
+                        class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                      </div>
+                    </div>
+                    <span class="text-slate-300 group-hover:text-white transition-colors">Lossless PNG (preserve transparency)</span>
                   </label>
                 </div>
 
@@ -409,15 +548,26 @@
                   </p>
                 </div>
 
-                <label class="flex items-center space-x-3 cursor-pointer group mt-4">
+                <label class="flex items-center space-x-3 cursor-pointer group mt-4" id="strip-exif-row">
                   <div class="relative">
-                    <input type="checkbox" name="strip_exif" class="peer sr-only">
+                    <input type="checkbox" name="strip_exif" id="strip-exif-check" class="peer sr-only" onchange="updateProcessingModeUI()">
                     <div
                       class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
                     </div>
                   </div>
-                  <span class="text-slate-300 group-hover:text-white transition-colors">Remove EXIF metadata (GPS, camera info)</span>
+                  <span class="text-slate-300 group-hover:text-white transition-colors">Remove EXIF metadata <span id="strip-exif-note" class="text-slate-500">(all formats, server mode)</span></span>
                 </label>
+
+                <label class="flex items-center space-x-3 cursor-pointer group mt-4 hidden" id="mozjpeg-row">
+                  <div class="relative">
+                    <input type="checkbox" name="mozjpeg" id="mozjpeg-check" class="peer sr-only" onchange="updateProcessingModeUI()">
+                    <div
+                      class="w-10 h-6 bg-dark-700 rounded-full peer peer-focus:ring-2 peer-focus:ring-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                  </div>
+                  <span class="text-slate-300 group-hover:text-white transition-colors">Sharper JPG (MozJPEG) <span class="text-slate-500">(server mode)</span></span>
+                </label>
+                <input type="hidden" name="resize_preset" id="resize_preset" value="">
               </div>
             </div>
 
@@ -433,6 +583,20 @@
             </button>
 
             <p id="compress-stats" class="text-sm text-slate-400 text-center mt-3 min-h-[1.25rem]"></p>
+            <p id="target-warning" class="text-sm text-amber-400 text-center mt-1 hidden">Could not reach target size at minimum quality — closest result downloaded.</p>
+
+            <!-- Before/after preview -->
+            <div id="compress-preview" class="hidden mt-6 animate-fade-in">
+              <h3 class="text-sm font-medium text-slate-300 uppercase tracking-wider mb-3">Before / After</h3>
+              <div class="preview-slider-wrap" id="preview-slider-wrap">
+                <img id="preview-original" alt="Original" src="">
+                <div class="preview-slider-after" id="preview-after-wrap">
+                  <img id="preview-compressed" alt="Compressed" src="">
+                </div>
+                <input type="range" min="0" max="100" value="50" class="preview-slider-input" id="preview-slider" aria-label="Compare before and after">
+              </div>
+              <p id="preview-batch-note" class="text-xs text-slate-500 mt-2 hidden"></p>
+            </div>
 
             <!-- Result Area -->
             <div id="result-area" class="hidden mt-8 animate-fade-in">
@@ -626,6 +790,10 @@
                 class="flex-1 py-4 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-500 hover:to-indigo-500 text-white rounded-xl font-bold transition-all shadow-lg">
                 Download Edited Image
               </button>
+              <button type="button" onclick="handoffEditorToCompressor()"
+                class="flex-1 py-4 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-bold transition-colors border border-primary-500/40">
+                Compress This Image
+              </button>
               <button onclick="resetEditor()"
                 class="flex-1 py-4 bg-dark-700 hover:bg-dark-600 text-white rounded-xl font-bold transition-colors">
                 Reset / New Image
@@ -637,21 +805,6 @@
       </div>
 
     </main>
-
-    <!-- Popular tools -->
-    <section class="w-full max-w-4xl mx-auto mt-16" aria-labelledby="tools-heading">
-      <h2 id="tools-heading" class="text-2xl font-bold text-white mb-6 text-center">Popular tools</h2>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {% for tool in popular_tools %}
-        <li>
-          <a href="{{ tool.url }}" class="block glass rounded-xl p-4 h-full hover:border-primary-500 border border-transparent transition-colors">
-            <span class="text-white font-semibold block mb-1">{{ tool.title }}</span>
-            <span class="text-slate-400 text-sm">{{ tool.desc }}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
 
     {% if latest_guides %}
     <section class="w-full max-w-4xl mx-auto mt-16" aria-labelledby="guides-heading">
@@ -674,28 +827,22 @@
       <div>
         <h2 id="features-heading" class="text-2xl font-bold text-white mb-4">What you can do with FileShrinkr</h2>
         <ul class="list-disc pl-6 space-y-2">
-          <li><strong>Compress images</strong> — Reduce JPG, PNG, WEBP, and SVG file size with adjustable quality
-            (1–100).</li>
-          <li><strong>Convert to PDF</strong> — Export compressed images as PDF, or merge multiple images into one
-            document.</li>
-          <li><strong>Batch processing</strong> — Upload multiple files at once; download a ZIP when compressing several
-            images.</li>
-          <li><strong>Edit in browser</strong> — Crop, resize, rotate, and flip images client-side before download (PNG
-            export).</li>
-          <li><strong>Lossless PDF option</strong> — Preserve original image quality in PDF when compression is
-            disabled.</li>
+          <li><strong>Compress images</strong> — JPG, PNG, WEBP, HEIC, and SVG in; JPG, WEBP, AVIF, PNG, or PDF out.
+            Browser-private mode, quality slider, target sizes (20–500 KB) for government and exam form uploads, and Instagram/Facebook/YouTube presets.</li>
+          <li><strong>Resize and edit for forms</strong> — Crop passport-style photos, set custom width × height, and compress to portal file-size limits before filling SSC, UPSC, railway, or other online application forms. <a href="/guides/resize-photos-for-government-exam-forms" class="text-primary-400 hover:underline">Read the full guide</a>.</li>
+          <li><strong>Convert to PDF</strong> — Export compressed images as PDF, or merge multiple images into one document (lossless option available).</li>
+          <li><strong>Batch processing</strong> — Upload multiple files; download a ZIP when compressing several images.</li>
+          <li><strong>Edit in browser</strong> — Crop, resize, rotate, and flip client-side, then hand off to the compressor.</li>
+          <li><strong>Before/after preview</strong> — Compare original and compressed images with a slider after processing.</li>
         </ul>
       </div>
 
       <div>
         <h2 id="how-to-heading" class="text-2xl font-bold text-white mb-4">How to compress images online</h2>
         <ol class="list-decimal pl-6 space-y-2">
-          <li>Open the <strong>Image Compressor</strong> tab and upload one or more image files.</li>
-          <li>Set your preferred <strong>compression quality</strong> and choose an output format: JPG, WEBP, or PDF.
-          </li>
-          <li>For PDF, optionally merge all images into one file or keep lossless quality.</li>
-          <li>Click <strong>Start Compression</strong> — your file downloads automatically when processing completes.
-          </li>
+          <li>Choose <strong>Browser (private)</strong> or <strong>Server</strong> mode, set quality or a <strong>target file size</strong>, and pick a resize preset if needed.</li>
+          <li>Select output format: JPG, WEBP, AVIF, PNG, or PDF. Enable EXIF removal or MozJPEG (server) when required.</li>
+          <li>Click <strong>Start Compression</strong> — preview before/after, then download automatically.</li>
         </ol>
       </div>
 
@@ -725,6 +872,12 @@
 
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+  <script>
+    window.FILESHRINKR_RESIZE_PRESETS = {{ resize_presets | tojson }};
+    window.FILESHRINKR_SERVER = { heic: {{ heic_supported | tojson }}, avif: {{ avif_supported | tojson }}, mozjpeg: {{ mozjpeg_supported | tojson }} };
+  </script>
+  <script src="/static/compress-client.js"></script>
   <script>
     // ===== TAB SWITCHING =====
     function switchTab(tab) {
@@ -1151,6 +1304,20 @@
       link.click();
     }
 
+    function handoffEditorToCompressor() {
+      if (!editorCanvas) return;
+      editorCanvas.toBlob((blob) => {
+        if (!blob) return;
+        const file = new File([blob], 'edited-image.png', { type: 'image/png' });
+        dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+        updateFileList();
+        switchTab('compressor');
+        document.getElementById('content-image')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 'image/png');
+    }
+
     function resetEditor() {
       document.getElementById('editor-upload-zone').classList.remove('hidden');
       document.getElementById('editor-canvas-area').classList.add('hidden');
@@ -1288,96 +1455,404 @@
       updateFileList();
     }
 
+    let previewObjectUrls = [];
+
+    function revokePreviewUrls() {
+      previewObjectUrls.forEach((u) => URL.revokeObjectURL(u));
+      previewObjectUrls = [];
+    }
+
+    function showCompressPreview(originalUrl, compressedUrl, batchCount) {
+      const panel = document.getElementById('compress-preview');
+      const origImg = document.getElementById('preview-original');
+      const compImg = document.getElementById('preview-compressed');
+      const batchNote = document.getElementById('preview-batch-note');
+      if (!panel || !origImg || !compImg) return;
+
+      revokePreviewUrls();
+      if (originalUrl.startsWith('blob:')) previewObjectUrls.push(originalUrl);
+      if (compressedUrl.startsWith('blob:')) previewObjectUrls.push(compressedUrl);
+
+      origImg.src = originalUrl;
+      compImg.src = compressedUrl;
+      panel.classList.remove('hidden');
+
+      if (batchCount > 1) {
+        batchNote.textContent = `Preview shows first of ${batchCount} files.`;
+        batchNote.classList.remove('hidden');
+      } else {
+        batchNote.classList.add('hidden');
+      }
+
+      const slider = document.getElementById('preview-slider');
+      const afterWrap = document.getElementById('preview-after-wrap');
+      if (slider && afterWrap) {
+        slider.value = 50;
+        afterWrap.style.width = '50%';
+      }
+    }
+
+    document.getElementById('preview-slider')?.addEventListener('input', function () {
+      const afterWrap = document.getElementById('preview-after-wrap');
+      if (afterWrap) afterWrap.style.width = this.value + '%';
+    });
+
+    function getCompressOptions(form) {
+      const targetKbEl = form.querySelector('input[name="target_kb"]:checked');
+      const targetKb = targetKbEl?.value ? parseInt(targetKbEl.value, 10) : undefined;
+      const cw = parseInt(document.getElementById('compress-custom-width')?.value, 10);
+      const ch = parseInt(document.getElementById('compress-custom-height')?.value, 10);
+      return {
+        format: form.querySelector('input[name="format"]:checked').value,
+        quality: parseInt(form.querySelector('#quality').value, 10),
+        resizePreset: document.getElementById('resize_preset').value || undefined,
+        width: cw > 0 ? cw : undefined,
+        height: ch > 0 ? ch : undefined,
+        targetKb,
+        pngLossless: form.querySelector('#png-lossless-check')?.checked !== false,
+      };
+    }
+
+    function showTargetWarning(show) {
+      const el = document.getElementById('target-warning');
+      if (el) el.classList.toggle('hidden', !show);
+    }
+
+    document.querySelectorAll('.preset-chip').forEach((btn) => {
+      btn.addEventListener('click', function () {
+        const preset = this.getAttribute('data-preset') || '';
+        document.getElementById('resize_preset').value = preset;
+        document.getElementById('compress-custom-width').value = '';
+        document.getElementById('compress-custom-height').value = '';
+        document.querySelectorAll('.preset-chip').forEach((b) => {
+          b.classList.remove('bg-primary-600', 'border-primary-500', 'text-white');
+          b.classList.add('border-slate-600', 'text-slate-300');
+        });
+        this.classList.add('bg-primary-600', 'border-primary-500', 'text-white');
+        this.classList.remove('border-slate-600', 'text-slate-300');
+      });
+    });
+
+    ['compress-custom-width', 'compress-custom-height'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', function () {
+        if (this.value) {
+          document.getElementById('resize_preset').value = '';
+          document.querySelectorAll('.preset-chip').forEach((b) => {
+            b.classList.remove('bg-primary-600', 'border-primary-500', 'text-white');
+            b.classList.add('border-slate-600', 'text-slate-300');
+          });
+          const noneChip = document.querySelector('.preset-chip[data-preset=""]');
+          noneChip?.classList.add('bg-primary-600', 'border-primary-500', 'text-white');
+        }
+      });
+    });
+
     function togglePdfOptions() {
       const format = document.querySelector('input[name="format"]:checked').value;
       const pdfOptions = document.getElementById('pdf-options');
-      if (format === 'pdf') {
-        pdfOptions.classList.remove('hidden');
+      const pngOptions = document.getElementById('png-options');
+      const qualitySection = document.getElementById('quality-section');
+      const targetSection = document.getElementById('target-kb-section');
+
+      pdfOptions.classList.toggle('hidden', format !== 'pdf');
+      pngOptions.classList.toggle('hidden', format !== 'png');
+
+      if (qualitySection) {
+        qualitySection.classList.toggle('opacity-50', format === 'png');
+        qualitySection.classList.toggle('pointer-events-none', format === 'png');
+      }
+      if (targetSection) {
+        const disableTarget = format === 'png' || format === 'pdf';
+        targetSection.classList.toggle('opacity-50', disableTarget);
+        targetSection.classList.toggle('pointer-events-none', disableTarget);
+        if (disableTarget) {
+          const offRadio = document.querySelector('input[name="target_kb"][value=""]');
+          if (offRadio) offRadio.checked = true;
+        }
+      }
+      updateProcessingModeUI();
+    }
+
+    function getProcessingMode() {
+      return document.querySelector('input[name="processing_mode"]:checked')?.value || 'client';
+    }
+
+    async function updateProcessingModeUI() {
+      const mode = getProcessingMode();
+      const format = document.querySelector('input[name="format"]:checked')?.value;
+      const pdfLabel = document.getElementById('format-pdf-label');
+      const stripRow = document.getElementById('strip-exif-row');
+      const stripCheck = document.getElementById('strip-exif-check');
+      const mozjpegRow = document.getElementById('mozjpeg-row');
+      const mozjpegCheck = document.getElementById('mozjpeg-check');
+      const avifInput = document.getElementById('format-avif');
+      const avifLabel = document.getElementById('format-avif-label');
+      const badge = document.getElementById('capability-badge');
+      const caps = await FileShrinkrClient.detectCapabilities();
+
+      const serverAvif = window.FILESHRINKR_SERVER?.avif;
+      const serverHeic = window.FILESHRINKR_SERVER?.heic;
+      const serverMozjpeg = window.FILESHRINKR_SERVER?.mozjpeg;
+      const parts = [];
+      if (caps.avif || serverAvif) parts.push('AVIF export available');
+      if (serverHeic) parts.push('HEIC supported on server');
+      if (serverMozjpeg) parts.push('MozJPEG available');
+      if (badge) badge.textContent = parts.join(' · ');
+
+      if (mozjpegRow) {
+        const showMoz = format === 'jpg' && serverMozjpeg;
+        mozjpegRow.classList.toggle('hidden', !showMoz);
+        if (mode === 'client' && mozjpegCheck) {
+          mozjpegRow.classList.add('opacity-50', 'pointer-events-none');
+          mozjpegCheck.checked = false;
+        } else if (showMoz) {
+          mozjpegRow.classList.remove('opacity-50', 'pointer-events-none');
+        }
+      }
+
+      if (mode === 'client') {
+        pdfLabel?.classList.add('opacity-50', 'pointer-events-none');
+        if (format === 'pdf') {
+          document.querySelector('input[name="format"][value="jpg"]').checked = true;
+          document.getElementById('pdf-options')?.classList.add('hidden');
+          togglePdfOptions();
+        }
+        stripRow?.classList.add('opacity-50', 'pointer-events-none');
+        if (stripCheck) stripCheck.checked = false;
+        if (!caps.avif) {
+          avifLabel?.classList.add('opacity-50', 'pointer-events-none');
+          if (avifInput?.checked) {
+            document.querySelector('input[name="format"][value="webp"]').checked = true;
+            togglePdfOptions();
+          }
+        } else {
+          avifLabel?.classList.remove('opacity-50', 'pointer-events-none');
+        }
       } else {
-        pdfOptions.classList.add('hidden');
+        pdfLabel?.classList.remove('opacity-50', 'pointer-events-none');
+        stripRow?.classList.remove('opacity-50', 'pointer-events-none');
+        if (!serverAvif) {
+          avifLabel?.classList.add('opacity-50', 'pointer-events-none');
+        } else {
+          avifLabel?.classList.remove('opacity-50', 'pointer-events-none');
+        }
       }
     }
+
+    function appendFormFields(form, formData) {
+      formData.set('quality', form.querySelector('#quality').value);
+      formData.set('format', form.querySelector('input[name="format"]:checked').value);
+      const resizePreset = document.getElementById('resize_preset').value;
+      if (resizePreset) formData.set('resize_preset', resizePreset);
+      const cw = document.getElementById('compress-custom-width')?.value;
+      const ch = document.getElementById('compress-custom-height')?.value;
+      if (cw && ch) {
+        formData.set('width', cw);
+        formData.set('height', ch);
+      }
+      const targetKb = form.querySelector('input[name="target_kb"]:checked')?.value;
+      if (targetKb) formData.set('target_kb', targetKb);
+      if (form.querySelector('input[name="merge_pdf"]')?.checked) formData.set('merge_pdf', 'on');
+      if (form.querySelector('input[name="compress_pdf_images"]')?.checked) formData.set('compress_pdf_images', 'on');
+      if (form.querySelector('input[name="strip_exif"]')?.checked) formData.set('strip_exif', 'on');
+      if (form.querySelector('#png-lossless-check')?.checked) formData.set('png_lossless', 'on');
+      if (form.querySelector('#mozjpeg-check')?.checked) formData.set('mozjpeg', 'on');
+    }
+
+    async function buildServerPreview(files, compressedUrl) {
+      if (!files.length) return null;
+      const origUrl = URL.createObjectURL(files[0]);
+      previewObjectUrls.push(origUrl);
+      return { originalUrl: origUrl, compressedUrl };
+    }
+
+    function showCompressStats(originalSize, compressedSize, el) {
+      if (!el || !originalSize || !compressedSize) return;
+      const saved = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+      const fmt = (n) => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
+      el.textContent = `Saved ${saved}% (${fmt(originalSize)} → ${fmt(compressedSize)})`;
+    }
+
+    async function submitToServer(form, files) {
+      const formData = new FormData();
+      files.forEach((f) => formData.append('file', f));
+      appendFormFields(form, formData);
+      const response = await fetch('/compress', { method: 'POST', body: formData });
+      const contentType = response.headers.get('content-type');
+      if (!contentType || contentType.indexOf('application/json') === -1) {
+        const text = await response.text();
+        throw new Error('Server returned non-JSON response: ' + text.substring(0, 100));
+      }
+      const data = await response.json();
+      if (!response.ok || data.status !== 'success') {
+        throw new Error(data.error || 'Unknown error occurred');
+      }
+      return data;
+    }
+
+    function triggerDownload(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function applyUrlPresets() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('tab') === 'editor') {
+        switchTab('editor');
+      }
+      const format = params.get('format');
+      if (format) {
+        const radio = document.querySelector(`input[name="format"][value="${format}"]`);
+        if (radio) {
+          radio.checked = true;
+          togglePdfOptions();
+        }
+      }
+      const quality = params.get('quality');
+      if (quality) {
+        const slider = document.getElementById('quality');
+        const label = document.getElementById('quality-value');
+        if (slider) {
+          slider.value = quality;
+          if (label) label.textContent = quality + '%';
+        }
+      }
+      if (params.get('strip_exif') === '1') {
+        const exif = document.querySelector('input[name="strip_exif"]');
+        if (exif) exif.checked = true;
+      }
+      const resizePreset = params.get('resize_preset');
+      if (resizePreset) {
+        const field = document.getElementById('resize_preset');
+        if (field) field.value = resizePreset;
+        const chip = document.querySelector(`.preset-chip[data-preset="${resizePreset}"]`);
+        if (chip) chip.click();
+      }
+      const targetKb = params.get('target_kb');
+      if (targetKb) {
+        const radio = document.querySelector(`input[name="target_kb"][value="${targetKb}"]`);
+        if (radio) radio.checked = true;
+      }
+      togglePdfOptions();
+    }
+
+    applyUrlPresets();
+    updateProcessingModeUI();
 
     function resetUI() {
       const form = document.getElementById('compress-form');
       const submitBtn = form.querySelector('button[type="submit"]');
       const resultArea = document.getElementById('result-area');
       const pdfOptions = document.getElementById('pdf-options');
+      const previewPanel = document.getElementById('compress-preview');
 
       form.reset();
       dt = new DataTransfer();
       fileInput.files = dt.files;
       updateFileList();
+      document.getElementById('resize_preset').value = '';
+      document.getElementById('compress-custom-width').value = '';
+      document.getElementById('compress-custom-height').value = '';
+      document.querySelectorAll('.preset-chip').forEach((b) => {
+        b.classList.remove('bg-primary-600', 'border-primary-500', 'text-white');
+        b.classList.add('border-slate-600', 'text-slate-300');
+      });
+      const noneChip = document.querySelector('.preset-chip[data-preset=""]');
+      noneChip?.classList.add('bg-primary-600', 'border-primary-500', 'text-white');
+
+      revokePreviewUrls();
+      previewPanel?.classList.add('hidden');
+      showTargetWarning(false);
+      document.getElementById('compress-stats').textContent = '';
 
       resultArea.classList.add('hidden');
       pdfOptions.classList.add('hidden');
+      document.getElementById('png-options')?.classList.add('hidden');
       submitBtn.classList.remove('hidden');
+      togglePdfOptions();
     }
 
-    // AJAX Form Handling for Compression
+    // AJAX / hybrid compression
     document.getElementById('compress-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const form = this;
-      const formData = new FormData(form);
       const submitBtn = form.querySelector('button[type="submit"]');
-      const resultArea = document.getElementById('result-area');
-      const downloadLink = document.getElementById('download-link');
       const compressStats = document.getElementById('compress-stats');
       const originalBtnContent = submitBtn.innerHTML;
+      const files = Array.from(dt.files);
+
+      if (!files.length) {
+        alert('Please select at least one image.');
+        return;
+      }
 
       if (compressStats) compressStats.textContent = '';
-
-      // Show loading state
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="animate-pulse">Compressing...</span>';
 
       try {
-        const response = await fetch('/compress', {
-          method: 'POST',
-          body: formData
-        });
+        const processingMode = getProcessingMode();
+        const options = getCompressOptions(form);
 
-        // If response is not JSON (e.g. error page), verify header or try/catch parsing
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-          const data = await response.json();
+        if (processingMode === 'client' && !FileShrinkrClient.requiresServer(form, processingMode)) {
+          const batch = await FileShrinkrClient.compressBatch(files, options);
+          let totalOriginal = batch.totalOriginal;
+          let totalCompressed = batch.totalCompressed;
 
-          if (response.ok && data.status === "success") {
-            // Auto-download the file
-            const a = document.createElement('a');
-            a.href = data.download_url;
-            a.download = data.filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            if (compressStats && data.original_size && data.compressed_size) {
-              const saved = ((1 - data.compressed_size / data.original_size) * 100).toFixed(1);
-              const fmt = (n) => n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB';
-              compressStats.textContent = `Saved ${saved}% (${fmt(data.original_size)} → ${fmt(data.compressed_size)})`;
+          if (batch.results.length) {
+            const first = batch.results[0];
+            if (first.preview) {
+              showCompressPreview(first.preview.originalUrl, first.preview.compressedUrl, batch.results.length);
             }
-
-            // Reset button state immediately
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnContent;
-
-            // Reset the form after a short delay
-            setTimeout(() => {
-              resetUI();
-            }, 500);
-
-          } else {
-            throw new Error(data.error || "Unknown error occurred");
+            await FileShrinkrClient.downloadResults(batch.results);
           }
-        } else {
-          // Not JSON, probably server error html
-          const text = await response.text();
-          throw new Error("Server returned non-JSON response: " + text.substring(0, 100));
+
+          if (batch.needsServer.length) {
+            const data = await submitToServer(form, batch.needsServer);
+            triggerDownload(data.download_url, data.filename);
+            if (!batch.results.length) {
+              const prev = await buildServerPreview(batch.needsServer, data.download_url);
+              if (prev) showCompressPreview(prev.originalUrl, prev.compressedUrl, batch.needsServer.length);
+            }
+            if (data.original_size && data.compressed_size) {
+              totalOriginal += data.original_size;
+              totalCompressed += data.compressed_size;
+            }
+            if (data.within_target === false) showTargetWarning(true);
+            if (compressStats && batch.results.length) {
+              compressStats.textContent += ' Some files were processed on the server (HEIC or unsupported format).';
+            }
+          }
+
+          if (!batch.results.length && !batch.needsServer.length) {
+            throw new Error('No files could be compressed.');
+          }
+
+          if (batch.withinTarget === false) showTargetWarning(true);
+          showCompressStats(totalOriginal, totalCompressed, compressStats);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnContent;
+          setTimeout(() => resetUI(), 500);
+          return;
         }
 
+        const data = await submitToServer(form, files);
+        const prev = await buildServerPreview(files, data.download_url);
+        if (prev) showCompressPreview(prev.originalUrl, prev.compressedUrl, files.length);
+        if (data.within_target === false) showTargetWarning(true);
+        triggerDownload(data.download_url, data.filename);
+        showCompressStats(data.original_size, data.compressed_size, compressStats);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnContent;
+        setTimeout(() => resetUI(), 500);
+
       } catch (error) {
-        alert("Error: " + error.message);
+        alert('Error: ' + error.message);
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalBtnContent;
       }

@@ -2,18 +2,23 @@
 > Free online image compression and editing at https://fileshrinkr.com
 
 ## Summary
-FileShrinkr helps users compress images and perform basic edits in the browser. Compression runs server-side; the image editor (crop, resize, rotate, flip) runs client-side with HTML5 Canvas.
+FileShrinkr compresses and edits images in the browser and on the server. Browser (private) mode runs JPG, WEBP, AVIF, and PNG compression locally. Server mode handles HEIC, PDF, EXIF removal, and MozJPEG JPG. The editor (crop, resize, rotate, flip) runs client-side with HTML5 Canvas.
 
 ## Primary URL
 - https://fileshrinkr.com/
 
 ## Features
-- Compress JPG, PNG, WEBP, SVG → JPG, WEBP, or PDF
-- Adjustable compression quality (1–100)
-- Batch upload; multiple files download as ZIP
-- Merge multiple images into one PDF
-- Optional lossless PDF (img2pdf) vs compressed PDF (Pillow)
-- Client-side image editor with undo/redo
+- Upload: JPG, PNG, WEBP, HEIC, SVG
+- Output: JPG, WEBP, AVIF, PNG, PDF
+- Target file size presets: 20 KB, 100 KB, 500 KB (government and exam form uploads)
+- Resize and crop for online application forms (custom W×H, passport-style photos)
+- Resize presets: Instagram 1080², Facebook 1200×630, YouTube 1280×720; custom cover crop
+- Browser-private compression mode (no upload for supported raster formats)
+- Batch upload; ZIP download for multiple files
+- Merge images into one PDF; optional lossless PDF (img2pdf)
+- Before/after compression preview
+- Editor → compressor handoff
+- Remove EXIF (server mode, JPG/WEBP/AVIF)
 
 ## API
 - POST /compress — multipart form upload; returns JSON with download_url
@@ -21,13 +26,14 @@ FileShrinkr helps users compress images and perform basic edits in the browser. 
 - GET /ads.txt — Google AdSense authorized sellers
 
 ## Tech stack
-- Backend: Python Flask, FFmpeg, Pillow, img2pdf
-- Frontend: HTML, Tailwind CSS, vanilla JavaScript
+- Backend: Python Flask, Pillow, pillow-heif, img2pdf (optional MozJPEG)
+- Frontend: HTML, Tailwind CSS, vanilla JavaScript, JSZip
 - Deployment: Docker on port 3000
 
 ## Publisher
 DSnM Solutions
 
-## Optional
+## Guides
+- https://fileshrinkr.com/guides/resize-photos-for-government-exam-forms
 - Sitemap: https://fileshrinkr.com/sitemap.xml
 - Robots: https://fileshrinkr.com/robots.txt
